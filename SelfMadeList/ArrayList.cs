@@ -7,6 +7,9 @@ namespace SelfMadeList
         // Свойство. Длина Списка. Можем получить значение, не можем изменить снаружи
         public int ListLength { get; private set; }
 
+        private const double LengthUpMultiplier = 1.33;
+        private const double LengthDownMultiplier = 0.67;
+
         // Поле. Массив на основе которого создается список
         private int[] _array;
         // Свойство. Размер массива, при обращении выдает длинну массива 
@@ -17,12 +20,41 @@ namespace SelfMadeList
                 return _array.Length;
             }
         }
+        // Создание индексаторов классу
+        public int this[int i]
+        {
+            get
+            {
+                if (i >= ListLength || i < 0)
+                {
+                    throw new IndexOutOfRangeException();
+                }
+                return _array[i];
+            }
+            set
+            {
+                if (i >= ListLength || i < 0)
+                {
+                    throw new IndexOutOfRangeException();
+                }
+                _array[i] = value;
+            }
+        }
         // Конструктор для создания нового листа. Внутри создает массив на 9 элементов по умолчанию, длина Листа 0
         public ArrayList()
         {
             _array = new int[9];
             ListLength = 0;
         }
+        // Конструктор. В качестве входного параметра принимает массив. Сразу же увеличивает его на 33% и присвает _array его значение
+        public ArrayList(int[] array)
+        {
+            //_array = new int[(int)(array.Length * LengthUpMultiplier)];
+            _array = new int[(int)(array.Length * LengthUpMultiplier)];
+            ListLength = array.Length;
+            Array.Copy(array, _array, array.Length);
+        }
+
         // Метод возвращает длинну Списка
         public int GetLength() 
         {
@@ -30,25 +62,9 @@ namespace SelfMadeList
         }
 
         // Метод возвращает значение по Индексу
-        private int GetIndexByValue(int index)
+        public int GetIndexByValue(int value)
         {
-            if (index > _array.Length || index < 0)
-            {
-                throw new Exception("Out of range exception");
-            }
-            int value = _array[index];
-            return value;
-        }
-
-        // Метод. Изменяет в массиве элемент по индексу
-        public void ChangeElementByIndex(int[] _array, int index, int value)
-        {
-            _array[index] = value;
-        }
-
-        // Метод. Возвращает индекс по Значению
-        public int GetValueByIndex(int value)
-        {
+           
             for (int i = 0; i < _array.Length; i++)
             {
                 if (_array[i] == value)
@@ -56,18 +72,35 @@ namespace SelfMadeList
                     return i;
                 }
             }
-            throw new Exception("No match Found");
+            return -1;
+        }
+
+        // Метод. Изменяет в массиве элемент по индексу
+        public void ChangeElementByIndex(int index, int value)
+        {
+            _array[index] = value;
+        }
+
+        // Метод. Возвращает индекс по Значению
+        public int GetValueByIndex(int index)
+        {
+             if (index > _array.Length || index < 0)
+            {
+                throw new Exception("Out of range exception");
+            }
+            int value = _array[index];
+            return value;
         }
 
         // Метод. Реверс
-        public void Reverse(int[] _array)
+        public void Reverse()
         {
-            int[] newArray = new int[_array.Length];
-            for (int i = 0; i < _array.Length; i++)
+            for (int i = 0; i < ListLength / 2; i++)
             {
-                newArray[newArray.Length - 1 - i] = _array[i];
+                int a = _array[i];
+                _array[i] = _array[ListLength - i - 1];
+                _array[ListLength - i - 1] = a;
             }
-            _array = newArray;
         }
 
         // Метод. Добавляет 1 значение в конец массива. При необходимости увеличивает размер массива вложенным методом. Изменяет длинну Листа на 1 элемент
@@ -87,14 +120,14 @@ namespace SelfMadeList
             {
                 IncreaseListLength();
             }
-            _array = MoveArrayForwardFrom0toValue(_array, value);
+            MoveArrayForwardFrom0toValue(_array, value);
             ListLength++;
         }
 
         // Метод. Удаляет с конца один элемент. При необходимости сокращает размер массива вложенным методом. Изменяет длинну Листа на -1 элемент
         public void Del()
         {
-            _array = ShrinkLastElement(_array);
+            TrimLastElement();
             ListLength--;
             if (_ArrayLength >= ListLength)
             {
@@ -105,7 +138,7 @@ namespace SelfMadeList
         // Метод. Удаляет с начала один элемент. При необходимости сокращает размер массива вложенным методом. Изменяет длинну Листа на -1 элемент
         public void DelFirstElement()
         {
-            _array = ShrinkFistElement(_array);
+            ShrinkFistElement(_array);
             ListLength--;
 
             if (_ArrayLength >= ListLength)
@@ -117,7 +150,7 @@ namespace SelfMadeList
         // Метод. Удаляет элемент по индексу. При необходимости сокращает размер массива вложенным методом. Изменяет длинну Листа на -1 элемент
         public void DelIndexElement(int index)
         {
-            _array = DecreaseByIndex(_array, index);
+            DecreaseByIndex(_array, index);
             ListLength--;
 
             if (_ArrayLength >= ListLength)
@@ -134,7 +167,7 @@ namespace SelfMadeList
             {
                 IncreaseListLength();
             }
-            _array = MoveArrayForwardFromIndex(_array, index);
+            MoveArrayForwardFromIndex(_array, index);
             _array[index] = value; ;
             ListLength++;
         }
@@ -144,7 +177,7 @@ namespace SelfMadeList
             int newListLength = _ArrayLength;
             while (newListLength <= ListLength + number)
             {
-                newListLength = (int)(newListLength * 1.33 + 1);
+                newListLength = (int)(newListLength * LengthUpMultiplier + 1);
             }
 
             int[] newArray = new int[newListLength];
@@ -157,41 +190,41 @@ namespace SelfMadeList
         private void DecreaseListLength()
         {
             int newListLength = _ArrayLength;
-            while (newListLength *2 > ListLength )
+            while (newListLength >= 2* ListLength )
             {
-                newListLength = (int)(newListLength * 0.67 );
+                newListLength = (int)(newListLength * LengthDownMultiplier + 1 );
             }
 
             int[] newArray = new int[newListLength];
-            Array.Copy(_array, newArray, _ArrayLength);
+            Array.Copy(_array, newArray, ListLength); // Копируем на длину Списка
 
             _array = newArray;
         }
 
         //Пересоздание метода Assert.Equals для тестов
-        //public override bool Equals(object obj)
-        //{
-        //    ArrayList arrayList = (ArrayList)obj;
+        public override bool Equals(object obj)
+        {
+            ArrayList arrayList = (ArrayList)obj;
 
-        //    if (ListLength!=arrayList.ListLength)
-        //    {
-        //        return false;
-        //    }
-        //    else
-        //    {
-        //        for(int i=0; i<ListLength; i++)
-        //        {
-        //            if (_array[i] != arrayList._array[i])
-        //            {
-        //                return false;
-        //            }
-        //        }
-        //    }
-        //    return true;
-        //}
+            if (ListLength != arrayList.ListLength)
+            {
+                return false;
+            }
+            else
+            {
+                for (int i = 0; i < ListLength; i++)
+                {
+                    if (_array[i] != arrayList._array[i])
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
 
         // Метод. Сдвигает массив вперед на value элементов
-        private int[] MoveArrayForwardFrom0toValue(int[] _array, int value)
+        private void MoveArrayForwardFrom0toValue(int[] _array, int value)
         {
             int[] newArray = new int[_array.Length + value];
 
@@ -200,11 +233,10 @@ namespace SelfMadeList
                 newArray[i + value] = _array[i];
             }
             _array = newArray;
-            return _array;
         }
 
         // Метод. Сдвигает массив вперед на 1 элемент начиная с определенного индекса
-        public static  int[] MoveArrayForwardFromIndex(int[] _array, int index)
+        private void  MoveArrayForwardFromIndex(int[] _array, int index)
         {
             int[] newArray = new int[_array.Length + 1];
             Array.Copy(_array, newArray, _array.Length);
@@ -214,20 +246,18 @@ namespace SelfMadeList
                 newArray[i + 1] = _array[i];
             }
             _array = newArray;
-            return _array;
         }
 
         // Метод. Удаляет из массива последний элемент
-        public static int[] ShrinkLastElement(int[] _array)
+        public void TrimLastElement()
         {
             int[] newArray = new int[_array.Length - 1];
             Array.Copy(_array, newArray, _array.Length-1);
             _array = newArray;
-            return _array;
         }
 
         // Метод. Удаляет из массива первый элемент
-        public static int[] ShrinkFistElement(int[] _array)
+        public void ShrinkFistElement(int[] _array)
         {
             int[] newArray = new int[_array.Length - 1];
             for (int i = 1; i < _array.Length; i++)
@@ -236,11 +266,10 @@ namespace SelfMadeList
             }
 
             _array = newArray;
-            return _array;
         }
 
         // Метод. Удаляет из массива элемент по индексу
-        public static int[] DecreaseByIndex(int[] _array, int index)
+        public void DecreaseByIndex(int[] _array, int index)
         {
             int[] newArray = new int[_array.Length - 1];
             for (int i = 0; i < index; i++)
@@ -252,7 +281,6 @@ namespace SelfMadeList
                  newArray[i-1] = _array[i];
             }
             _array = newArray;
-            return _array;
         }
         // Метод. возвращаем максимальное значение
         public int FindMaxValue(int[] _array)
@@ -335,7 +363,7 @@ namespace SelfMadeList
             }
             array1 = array2;
         }
-        // Сортируем по ubi
+        // Сортируем по убыванию
         public void SortArrayDescending(int[] array1)
         {
             int[] array2 = new int[array1.Length];
@@ -357,11 +385,16 @@ namespace SelfMadeList
             array1 = array2;
         }
 
-        //public static int[] DelFistEqualValue(int[] array, int value)
+        public override string ToString()
+        {
+            return string.Join(";", _array);
+        }
+
+        //public int[] DelFistEqualValue(int[] array, int value)
         //{
         //    int index = 0;
         //    GetIndexByValue(value);
-        //   array = DecreaseByIndex(array, index);
+        //    array = DecreaseByIndex(array, index);
         //}
     }
 }
