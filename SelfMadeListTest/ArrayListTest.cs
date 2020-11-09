@@ -67,6 +67,8 @@ namespace SelfMadeListTest
             
             actual.AddToStart(value);
             Assert.AreEqual(expected, actual);
+            
+            // тест коммит2
         }
     }
 }
