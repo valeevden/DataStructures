@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace SelfMadeList
 {
@@ -120,7 +121,8 @@ namespace SelfMadeList
             {
                 IncreaseListLength();
             }
-            MoveArrayForwardFrom0toValue(_array, value);
+            MoveArrayForwardFrom0toNumber(_array);
+            _array[0] = value;
             ListLength++;
         }
 
@@ -223,16 +225,14 @@ namespace SelfMadeList
             return true;
         }
 
-        // Метод. Сдвигает массив вперед на value элементов
-        private void MoveArrayForwardFrom0toValue(int[] _array, int value)
+        // Метод. Сдвигает массив вперед на number элементов
+        private void MoveArrayForwardFrom0toNumber(int[] _array, int number=1)
         {
-            int[] newArray = new int[_array.Length + value];
-
-            for (int i = 0; i < _array.Length; i++)
+            
+            for (int i = ListLength-1; i >= 0; i--)
             {
-                newArray[i + value] = _array[i];
+                _array[i + number] = _array[i];
             }
-            _array = newArray;
         }
 
         // Метод. Сдвигает массив вперед на 1 элемент начиная с определенного индекса
@@ -387,7 +387,7 @@ namespace SelfMadeList
 
         public override string ToString()
         {
-            return string.Join(";", _array);
+            return string.Join(";", _array.Take(ListLength));
         }
 
         //public int[] DelFistEqualValue(int[] array, int value)
