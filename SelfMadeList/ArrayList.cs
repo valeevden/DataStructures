@@ -50,7 +50,6 @@ namespace SelfMadeList
         // Конструктор. В качестве входного параметра принимает массив. Сразу же увеличивает его на 33% и присвает _array его значение
         public ArrayList(int[] array)
         {
-            //_array = new int[(int)(array.Length * LengthUpMultiplier)];
             _array = new int[(int)(array.Length * LengthUpMultiplier)];
             ListLength = array.Length;
             Array.Copy(array, _array, array.Length);
@@ -62,7 +61,7 @@ namespace SelfMadeList
           return ListLength;
         }
 
-        // Метод возвращает значение по Индексу
+        // Метод возвращает индекс по значению. Если значение не найдено возвращает -1
         public int GetIndexByValue(int value)
         {
            
@@ -73,12 +72,16 @@ namespace SelfMadeList
                     return i;
                 }
             }
-            return -1;
+            return -1; 
         }
 
         // Метод. Изменяет в массиве элемент по индексу
         public void ChangeElementByIndex(int index, int value)
         {
+            if (index > _array.Length || index < 0)
+            {
+                throw new Exception("Out of range exception");
+            }
             _array[index] = value;
         }
 
@@ -86,9 +89,9 @@ namespace SelfMadeList
         public int GetValueByIndex(int index)
         {
              if (index > _array.Length || index < 0)
-            {
+             {
                 throw new Exception("Out of range exception");
-            }
+             }
             int value = _array[index];
             return value;
         }
@@ -121,58 +124,154 @@ namespace SelfMadeList
             {
                 IncreaseListLength();
             }
-            MoveArrayForwardFrom0toNumber(_array);
+            MoveForwardFrom0toNumber(_array);
             _array[0] = value;
             ListLength++;
         }
 
-        // Метод. Удаляет с конца один элемент. При необходимости сокращает размер массива вложенным методом. Изменяет длинну Листа на -1 элемент
-        public void Del()
-        {
-            TrimLastElement();
-            ListLength--;
-            if (_ArrayLength >= ListLength)
-            {
-                DecreaseListLength();
-            }
-        }
-
-        // Метод. Удаляет с начала один элемент. При необходимости сокращает размер массива вложенным методом. Изменяет длинну Листа на -1 элемент
-        public void DelFirstElement()
-        {
-            ShrinkFistElement(_array);
-            ListLength--;
-
-            if (_ArrayLength >= ListLength)
-            {
-                DecreaseListLength();
-            }
-        }
-
-        // Метод. Удаляет элемент по индексу. При необходимости сокращает размер массива вложенным методом. Изменяет длинну Листа на -1 элемент
-        public void DelIndexElement(int index)
-        {
-            DecreaseByIndex(_array, index);
-            ListLength--;
-
-            if (_ArrayLength >= ListLength)
-            {
-                DecreaseListLength();
-            }
-        }
-
-
         // Метод. Добавляет 1 значение в список по индексу вложенным методом. При необходимости увеличивает размер массива вложенным методом. Изменяет длинну Листа на 1 элемент
         public void AddToIndex(int index, int value)
         {
+            if (index > _array.Length || index < 0)
+            {
+                throw new Exception("Out of range exception");
+            }
             if (_ArrayLength <= ListLength)
             {
                 IncreaseListLength();
             }
-            MoveArrayForwardFromIndex(_array, index);
-            _array[index] = value; ;
+            MoveForwardFromIndex(_array, index);
+            _array[index] = value;
             ListLength++;
         }
+
+        // Метод. Удаляет с конца один элемент. Изменяет длинну Листа на -1 элемент. При необходимости сокращает размер массива вложенным методом. 
+        public void DelLast()
+        {
+            ListLength--;
+            if (_ArrayLength >= ListLength)
+            {
+                DecreaseListLength();
+            }
+        }
+
+        // Метод.  Удаляет N элементов с конца
+        public void DelLastNElements(int number)
+        {
+            if (number < 0)
+            {
+                number = 0;
+            }
+            if (number >= ListLength)
+            {
+                ListLength = 0;
+                //_array = new int[9];
+            }
+            else
+            {
+                ListLength -= number;
+                if (_ArrayLength >= ListLength)
+                {
+                    DecreaseListLength();
+                }
+            }
+        }
+
+        // Метод. Удаляет с начала один элемент. При необходимости сокращает размер массива вложенным методом. Изменяет длинну Листа на -1 элемент
+        public void DelFirst()
+        {
+            DelFistElement();
+            ListLength--;
+            if (_ArrayLength >= ListLength)
+            {
+                DecreaseListLength();
+            }
+        }
+
+        // Метод. Удаляет с начала N элементов. При необходимости сокращает размер массива вложенным методом. Изменяет длинну Листа на N элемент
+        public void DelFirstNElements(int number)
+        {
+            if (number < 0)
+            {
+                number = 0;
+            }
+            if (number >= ListLength)
+            {
+                ListLength = 0;
+                //_array = new int[9];
+            }
+            else
+            {
+                DelFistNumberElements(number);
+                ListLength -= number;
+                if (_ArrayLength >= ListLength)
+                {
+                DecreaseListLength();
+                }
+            }
+        }
+
+        // Метод. Удаляет элемент по индексу. При необходимости сокращает размер массива вложенным методом. Изменяет длинну Листа на -1 элемент
+        public void DelIndex(int index)
+        {
+            if (index > _array.Length || index < 0)
+            {
+                throw new Exception("Out of range exception");
+            }
+            DecreaseByIndex(index);
+            ListLength--;
+            if (_ArrayLength >= ListLength)
+            {
+                DecreaseListLength();
+            }
+        }
+        
+        // Метод. Удаляет элемент по индексу. При необходимости сокращает размер массива вложенным методом. Изменяет длинну Листа на -1 элемент
+        public void DelElementStartFromIndex(int index, int number)
+        {
+            if (index > _array.Length || index < 0)
+            {
+                throw new Exception("Out of range exception");
+            }
+            if (number < 0)
+            {
+                number = 0;
+            }
+            int maxToTheEnd = ListLength - index;
+            if (number > maxToTheEnd)
+            {
+                number = maxToTheEnd;
+            }
+            DecreaseNumberElementsByIndex(index, number);
+            ListLength -= number;
+            if (_ArrayLength >= ListLength)
+            {
+                DecreaseListLength();
+            }
+        }
+
+        //Пересоздание метода Assert.Equals для тестов
+        public override bool Equals(object obj)
+        {
+            ArrayList arrayList = (ArrayList)obj;
+
+            if (ListLength != arrayList.ListLength)
+            {
+                return false;
+            }
+            else
+            {
+                for (int i = 0; i < ListLength; i++)
+                {
+                    if (_array[i] != arrayList._array[i])
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
         // Метод. Увеличивает размер массива и листа на number элементов
         private void IncreaseListLength(int number = 1)
         {
@@ -203,85 +302,62 @@ namespace SelfMadeList
             _array = newArray;
         }
 
-        //Пересоздание метода Assert.Equals для тестов
-        public override bool Equals(object obj)
-        {
-            ArrayList arrayList = (ArrayList)obj;
-
-            if (ListLength != arrayList.ListLength)
-            {
-                return false;
-            }
-            else
-            {
-                for (int i = 0; i < ListLength; i++)
-                {
-                    if (_array[i] != arrayList._array[i])
-                    {
-                        return false;
-                    }
-                }
-            }
-            return true;
-        }
-
-        // Метод. Сдвигает массив вперед на number элементов
-        private void MoveArrayForwardFrom0toNumber(int[] _array, int number=1)
+        // Метод. Сдвигает  вперед на number элементов
+        private void MoveForwardFrom0toNumber(int[] _array, int number=1)
         {
             
-            for (int i = ListLength-1; i >= 0; i--)
+            for (int i = ListLength - 1; i >= 0; i--)
             {
                 _array[i + number] = _array[i];
             }
         }
 
-        // Метод. Сдвигает массив вперед на 1 элемент начиная с определенного индекса
-        private void  MoveArrayForwardFromIndex(int[] _array, int index)
+        // Метод. Сдвигает вперед на 1 элемент начиная с определенного индекса
+        private void  MoveForwardFromIndex(int[] _array, int index)
         {
-            int[] newArray = new int[_array.Length + 1];
-            Array.Copy(_array, newArray, _array.Length);
-                    
-            for (int i = index; i < _array.Length; i++)
+            for (int i = ListLength - 1; i >= index; i--)
             {
-                newArray[i + 1] = _array[i];
+                _array[i + 1] = _array[i];
             }
-            _array = newArray;
         }
 
-        // Метод. Удаляет из массива последний элемент
-        public void TrimLastElement()
+        // Метод. Удаляет первый элемент
+        private void DelFistElement()
         {
-            int[] newArray = new int[_array.Length - 1];
-            Array.Copy(_array, newArray, _array.Length-1);
-            _array = newArray;
+            for (int i = 0; i < ListLength; i++)
+            {
+                _array[i] = _array[i + 1];
+            }
         }
 
-        // Метод. Удаляет из массива первый элемент
-        public void ShrinkFistElement(int[] _array)
+        // Метод. Удаляет из начала N элементов
+        private void DelFistNumberElements(int number)
         {
-            int[] newArray = new int[_array.Length - 1];
-            for (int i = 1; i < _array.Length; i++)
+            for (int i = 0; i < ListLength - number; i++)
             {
-                newArray[i-1] = _array[i];
+                _array[i] = _array[i + number];
             }
-
-            _array = newArray;
         }
 
-        // Метод. Удаляет из массива элемент по индексу
-        public void DecreaseByIndex(int[] _array, int index)
+        // Метод. Удаляет элемент по индексу
+        private void DecreaseByIndex(int index)
         {
-            int[] newArray = new int[_array.Length - 1];
-            for (int i = 0; i < index; i++)
+            for (int i = index; i < ListLength; i++)
             {
-                newArray[i] = _array[i];
+                _array[i] = _array[i + 1];
             }
-            for (int i = _array.Length-1; i > index; i--)
-            {
-                 newArray[i-1] = _array[i];
-            }
-            _array = newArray;
+
         }
+
+        // Метод. Удаляет N элементов по индексу
+        private void DecreaseNumberElementsByIndex(int index, int number)
+        {
+            for (int i = index; i < ListLength - number; i++)
+            {
+                _array[i] = _array[i + number];
+            }
+        }
+
         // Метод. возвращаем максимальное значение
         public int FindMaxValue(int[] _array)
         {

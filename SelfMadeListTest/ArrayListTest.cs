@@ -40,6 +40,7 @@ namespace SelfMadeListTest
 
         //    Assert.Throws<IndexOutOfRangeException>(() => actual[index] = newValue);
         //}
+
         [TestCase(new int[] { 1, 2, 3, 4 }, 4, 3)]
         [TestCase(new int[] { 0, -3, 99, 6, }, 4, -1)]
         [TestCase(new int[] { 0, -3, 99, 6, }, 99, 2)]
@@ -51,11 +52,67 @@ namespace SelfMadeListTest
         }
 
         [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { 1, 2, 3, 4 })]
-        public void TrimLastElementTest(int[] array, int[] expArray)
+        public void DelLastTest(int[] array, int[] expArray)
         {
             ArrayList expected = new ArrayList(expArray);
             ArrayList actual = new ArrayList(array);
-            actual.TrimLastElement();
+            actual.DelLast();
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7 }, new int[] { 1, 2, 3, }, 4)]
+        public void DelLastNElementsTest(int[] array, int[] expArray, int number)
+        {
+            ArrayList expected = new ArrayList(expArray);
+            ArrayList actual = new ArrayList(array);
+            actual.DelLastNElements(number);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestCase(new int[] { 1, 2, 3, 4, 5}, new int[] { 2, 3, 4, 5 })]
+        public void DelFirstTest(int[] array, int[] expArray)
+        {
+            ArrayList expected = new ArrayList(expArray);
+            ArrayList actual = new ArrayList(array);
+            actual.DelFirst();
+            Assert.AreEqual(expected, actual);
+        }
+        
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7 }, new int[] { 4, 5, 6, 7 }, 3)]
+        public void DelFirstNElementsTest(int[] array, int[] expArray, int number)
+        {
+            ArrayList expected = new ArrayList(expArray);
+            ArrayList actual = new ArrayList(array);
+            actual.DelFirstNElements(number);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7 }, new int[] { 1, 2, 3, 5, 6, 7 }, 3)]
+        public void DelIndexTest(int[] array, int[] expArray, int index)
+        {
+            ArrayList expected = new ArrayList(expArray);
+            ArrayList actual = new ArrayList(array);
+            actual.DelIndex(index);
+            Assert.AreEqual(expected, actual);
+        }
+        
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7, 8 }, new int[] { 1, 2, 3, 7, 8 }, 3, 3)]
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7, 8 }, new int[] { 1, 2, 3 }, 3, 9)]
+        [TestCase(new int[] { 1, 2, 3, 4 }, new int[] { 1, 2, 3, 4 }, 3, -2)]
+        public void DelElementStartFromIndexTest(int[] array, int[] expArray, int index, int number)
+        {
+            ArrayList expected = new ArrayList(expArray);
+            ArrayList actual = new ArrayList(array);
+            actual.DelElementStartFromIndex(index, number);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { 1, 2, 3, 4, 5, 6 }, 6)]
+        public void AddTest(int[] array, int[] expArray, int value)
+        {
+            ArrayList expected = new ArrayList(expArray);
+            ArrayList actual = new ArrayList(array);
+            actual.Add(value);
             Assert.AreEqual(expected, actual);
         }
 
@@ -67,8 +124,16 @@ namespace SelfMadeListTest
             
             actual.AddToStart(value);
             Assert.AreEqual(expected, actual);
+        } 
+
+        [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { 1, 2, 9, 3, 4, 5 }, 2, 9)]
+        public void AddToIndexTest(int[] array, int[] expArray, int index, int value)
+        {
+            ArrayList expected = new ArrayList(expArray);
+            ArrayList actual = new ArrayList(array);
             
-            // тест коммит2
+            actual.AddToIndex(index, value);
+            Assert.AreEqual(expected, actual);
         }
     }
 }
