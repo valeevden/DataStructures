@@ -21,12 +21,12 @@ namespace SelfMadeListTest
         [TestCase(new int[] { 1, 2, 3, 4 }, 2, 7, new int[] { 1, 2, 7, 4 })]
         [TestCase(new int[] { 1, 2, 3, 4, 5 }, 0, -5, new int[] { -5, 2, 3, 4, 5 })]
         [TestCase(new int[] { 1, 2, 3, 4, 5 }, 4, 8, new int[] { 1, 2, 3, 4, 8 })]
-        public void SetByIndexTest(int[] array, int index, int newValue, int[] expArray)
+        public void SetIndexTest(int[] array, int index, int value, int[] expArray)
         {
             ArrayList expected = new ArrayList(expArray);
             ArrayList actual = new ArrayList(array);
 
-            actual[index] = newValue;
+            actual.SetIndex(index, value);
 
             Assert.AreEqual(expected, actual);
         }
@@ -44,10 +44,80 @@ namespace SelfMadeListTest
         [TestCase(new int[] { 1, 2, 3, 4 }, 4, 3)]
         [TestCase(new int[] { 0, -3, 99, 6, }, 4, -1)]
         [TestCase(new int[] { 0, -3, 99, 6, }, 99, 2)]
-        public void GetIndexByValueTest(int[] array, int value, int expValue)
+        public void GetIndexByValueTest(int[] array, int value, int expIndex)
         {
             int actual = new ArrayList(array).GetIndexByValue(value);
+            int expected = expIndex;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestCase(new int[] { 1, 2, 3, 4 }, 4)]
+        [TestCase(new int[] { 0, -3, 99, 6, }, 99)]
+        [TestCase(new int[] { -11, -3, -1, -7, }, -1)]
+        public void GetMaxTest(int[] array, int expValue)
+        {
+            int actual = new ArrayList(array).GetMax();
             int expected = expValue;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestCase(new int[] { 1, 2, 3, 4 }, 1)]
+        [TestCase(new int[] { 0, -3, 99, 6, }, -3)]
+        [TestCase(new int[] { -11, -3, -1, -7, }, -11)]
+        public void GetMinTest(int[] array, int expValue)
+        {
+            int actual = new ArrayList(array).GetMin();
+            int expected = expValue;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestCase(new int[] { 1, 2, 3, 4 }, 0)]
+        [TestCase(new int[] { 0, -3, 99, 6, }, 1)]
+        [TestCase(new int[] { -11, -3, -1, -17, }, 3)]
+        public void GetMinIndexTest(int[] array, int expIndex)
+        {
+            int actual = new ArrayList(array).GetMinIndex();
+            int expected = expIndex;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestCase(new int[] { 1, 2, 3, 4 }, 3)]
+        [TestCase(new int[] { 0, -3, 99, 6, }, 2)]
+        [TestCase(new int[] { -11, 7, -1, -17, }, 1)]
+        public void GetMaxIndexTest(int[] array, int expIndex)
+        {
+            int actual = new ArrayList(array).GetMaxIndex();
+            int expected = expIndex;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestCase(new int[] { 1, 2, 3, 4 }, 0, 1)]
+        [TestCase(new int[] { 0, -3, 99, 6, }, 2, 99)]
+        [TestCase(new int[] { 0, -3, 99, 6, }, 1, -3)]
+        public void GetValueByIndex(int[] array, int index, int expValue)
+        {
+            int actual = new ArrayList(array).GetValueByIndex(index);
+            int expected = expValue;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestCase(new int[] { 4, 6, 2, 1, 3 }, new int[] { 1, 2, 3, 4, 6 })]
+        [TestCase(new int[] { -1, 0, 2, 6, -11 }, new int[] { -11, -1, 0, 2, 6 })]
+        public void SortAcsendingTest(int[] array, int[] expArray)
+        {
+            ArrayList expected = new ArrayList(expArray);
+            ArrayList actual = new ArrayList(array);
+            actual.SortAscending();
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestCase(new int[] { 4, 6, 2, 1, 3 }, new int[] { 6, 4, 3, 2, 1 })]
+        [TestCase(new int[] { -1, 3, 2, 6, -11 }, new int[] { 6, 3, 2, -1, -11 })]
+        public void SortDescendingTest(int[] array, int[] expArray)
+        {
+            ArrayList expected = new ArrayList(expArray);
+            ArrayList actual = new ArrayList(array);
+            actual.SortDescending();
             Assert.AreEqual(expected, actual);
         }
 
@@ -95,7 +165,32 @@ namespace SelfMadeListTest
             actual.DelIndex(index);
             Assert.AreEqual(expected, actual);
         }
-        
+
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7 }, new int[] { 1, 2, 4, 5, 6, 7 }, 3)]
+        //[TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7 }, new int[] { 1, 2, 4, 5, 6, 7 }, 9)] // негативный
+        //[TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7 }, new int[] { 1, 2, 4, 5, 6, 7 }, 0)] // негативный
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7 }, new int[] { 2, 3, 4, 5, 6, 7 }, 1)]
+        public void DelFistValueTest(int[] array, int[] expArray, int value)
+        {
+            ArrayList expected = new ArrayList(expArray);
+            ArrayList actual = new ArrayList(array);
+            actual.DelFirstValue(value);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7 }, new int[] { 1, 2, 4, 5, 6, 7 }, 3)]
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 3 }, new int[] { 1, 2, 4, 5, 6 }, 3)]
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7 }, new int[] { 1, 2, 3, 4, 5, 6, 7 }, 9)]
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7 }, new int[] { 1, 2, 3, 4, 5, 6, 7 }, 0)] 
+        [TestCase(new int[] { 1, 1, 1, 4, 5, 6, 7 }, new int[] { 4, 5, 6, 7 }, 1)]
+        public void DelAllValueTest(int[] array, int[] expArray, int value)
+        {
+            ArrayList expected = new ArrayList(expArray);
+            ArrayList actual = new ArrayList(array);
+            actual.DelAllValue(value);
+            Assert.AreEqual(expected, actual);
+        }
+
         [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7, 8 }, new int[] { 1, 2, 3, 7, 8 }, 3, 3)]
         [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7, 8 }, new int[] { 1, 2, 3 }, 3, 9)]
         [TestCase(new int[] { 1, 2, 3, 4 }, new int[] { 1, 2, 3, 4 }, 3, -2)]
