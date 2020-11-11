@@ -8,8 +8,8 @@ namespace SelfMadeList
         // Свойство. Длина Списка. Можем получить значение, не можем изменить снаружи
         public int ListLength { get; private set; }
 
-        private const double LengthUpMultiplier = 1.33;
-        private const double LengthDownMultiplier = 0.67;
+        private const double _lengthUpMultiplier = 1.33;
+        private const double _lengthDownMultiplier = 0.67;
 
         // Поле. Массив на основе которого создается список
         private int[] _array;
@@ -51,12 +51,12 @@ namespace SelfMadeList
         public ArrayList(int N)
         {
             _array = new int[N];
-            ListLength = 0;
+            ListLength = 1;
         }
         // Конструктор класса3. В качестве входного параметра принимает массив. Сразу же увеличивает его на 33% и присвает Длинне класса длинну массива
         public ArrayList(int[] array)
         {
-            _array = new int[(int)(array.Length * LengthUpMultiplier)];
+            _array = new int[(int)(array.Length * _lengthUpMultiplier)];
             ListLength = array.Length;
             Array.Copy(array, _array, array.Length);
         }
@@ -443,7 +443,7 @@ namespace SelfMadeList
             int newListLength = _ArrayLength;
             while (newListLength <= ListLength + number)
             {
-                newListLength = (int)(newListLength * LengthUpMultiplier + 1 + number);
+                newListLength = (int)(newListLength * _lengthUpMultiplier + 1);
             }
             int[] newArray = new int[newListLength];
             Array.Copy(_array, newArray, _ArrayLength);
@@ -456,7 +456,7 @@ namespace SelfMadeList
             int newListLength = _ArrayLength;
             while (newListLength >= 2* ListLength )
             {
-                newListLength = (int)(newListLength * LengthDownMultiplier + 1 );
+                newListLength = (int)(newListLength * _lengthDownMultiplier + 1 );
             }
             int[] newArray = new int[newListLength];
             Array.Copy(_array, newArray, ListLength); // Копируем на длину Списка
