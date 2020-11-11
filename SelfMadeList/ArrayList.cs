@@ -112,7 +112,7 @@ namespace SelfMadeList
             }
         }
 
-        // Метод. Добавляет 1 значение в конец. При необходимости увеличивает размер массива вложенным методом. Изменяет длинну Листа на 1 элемент
+        // Метод. Добавляет 1 значение в конец. При необходимости увеличивает размер вложенным методом. Изменяет длинну Листа на 1 элемент
         public void Add(int value)
         {
             if (_ArrayLength <= ListLength)
@@ -126,7 +126,7 @@ namespace SelfMadeList
         // Метод. Добавляет новый массив в конец. При необходимости увеличивает размер массива вложенным методом и на каждой итерации цикла. Изменяет длинну листа на длинну добавляемого массива
         public void AddArray(int [] adArray)
         {
-            if (_ArrayLength <= ListLength)
+            if (_ArrayLength <= ListLength + adArray.Length)
             {
                 IncreaseLength(adArray.Length);
             }
@@ -134,12 +134,11 @@ namespace SelfMadeList
             for (int i = 0; i < adArray.Length; i++)
             {
                 _array [i + ListLength] = adArray[i];
-                 IncreaseLength();
             }
-            ListLength+=adArray.Length;
+            ListLength += adArray.Length;
         }
 
-        // Метод. Добавляет 1 значение в начало массива вложенным методом. При необходимости увеличивает размер массива вложенным методом. Изменяет длинну Листа на 1 элемент
+        // Метод. Добавляет 1 значение в начало. При необходимости увеличивает размер вложенным методом. Изменяет длинну Листа на 1 элемент
         public void AddToStart(int value)
         {
             if (_ArrayLength <= ListLength)
@@ -154,17 +153,16 @@ namespace SelfMadeList
         // Метод. Добавляет массив в начало.
         public void AddArrayToStart(int [] adArray)
         {
-            if (_ArrayLength <= ListLength)
+            if (_ArrayLength <= ListLength + adArray.Length)
             {
-                IncreaseLength();
+                IncreaseLength(adArray.Length);
             }
             MoveForwardFrom0toNumber(adArray.Length);
             for (int i = 0; i < adArray.Length; i++)
             {
                 _array[i] = adArray[i];
-                IncreaseLength();
             }
-            ListLength++;
+            ListLength += adArray.Length;
         }
 
         // Метод. Добавляет 1 значение в список по индексу вложенным методом. При необходимости увеличивает размер массива вложенным методом. Изменяет длинну Листа на 1 элемент
@@ -178,9 +176,28 @@ namespace SelfMadeList
             {
                 IncreaseLength();
             }
-            MoveForwardFromIndex(_array, index);
+            MoveForwardFromIndexToNumber(index);
             _array[index] = value;
             ListLength++;
+        }
+
+        // Метод. Добавляет массив в список по индексу вложенным методом. При необходимости увеличивает размер массива вложенным методом. Изменяет длинну Листа на длинну д.Массива
+        public void AddArrayToIndex(int [] adArray, int index)
+        {
+            if (index > ListLength || index < 0)
+            {
+                throw new Exception("Out of range exception");
+            }
+            if (_ArrayLength <= ListLength + adArray.Length)
+            {
+                IncreaseLength(adArray.Length);
+            }
+            MoveForwardFromIndexToNumber(index, adArray.Length);
+            for (int i = 0; i < adArray.Length; i++)
+            {
+                _array[i + index] = adArray[i];
+            }
+            ListLength += adArray.Length;
         }
 
         // Метод. Удаляет с конца один элемент. Изменяет длинну Листа на -1 элемент. При необходимости сокращает размер массива вложенным методом. 
@@ -472,12 +489,12 @@ namespace SelfMadeList
             }
         }
 
-        // Метод. Сдвигает вперед на 1 элемент начиная с определенного индекса
-        private void  MoveForwardFromIndex(int[] _array, int index)
+        // Метод. Сдвигает вперед на N элементов начиная с индекса
+        private void MoveForwardFromIndexToNumber(int index, int number=1)
         {
             for (int i = ListLength - 1; i >= index; i--)
             {
-                _array[i + 1] = _array[i];
+                _array[i + number] = _array[i];
             }
         }
 
