@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using SelfMadeList;
+using System;
 
 namespace SelfMadeListTest
 {
@@ -31,15 +32,19 @@ namespace SelfMadeListTest
             Assert.AreEqual(expected, actual);
         }
 
-        //[TestCase(new int[] { 1, 2, 3, 4, 5 }, 5, 8)]
-        //[TestCase(new int[] { 1, 2, 3, 4, 5 }, -1, 8)]
-        //[TestCase(new int[] { 1, 2, 3, 4, 5 }, 500, 8)]
-        //public void SetByIndexNegativeTest(int[] array, int index, int newValue)
-        //{
-        //    ArrayList actual = new ArrayList(array);
+        [TestCase(new int[] { 1, 2, 3, 4, 5 }, 5, 8)]
+        [TestCase(new int[] { 1, 2, 3, 4, 5 }, -1, 8)]
+        [TestCase(new int[] { 1, 2, 3, 4, 5 }, 500, 8)]
+        public void SetIndexNegativeTest1(int[] array, int index, int newValue)
+        {
+            ArrayList actual = new ArrayList(array);
 
-        //    Assert.Throws<IndexOutOfRangeException>(() => actual[index] = newValue);
-        //}
+            // <IndexOutOfRangeException
+            Assert.Throws<IndexOutOfRangeException>(() =>
+            {
+                actual[index] = newValue;
+            });
+        }
 
         [TestCase(new int[] { 1, 2, 3, 4 }, 4, 3)]
         [TestCase(new int[] { 0, -3, 99, 6, }, 4, -1)]
@@ -242,6 +247,18 @@ namespace SelfMadeListTest
             ArrayList actual = new ArrayList(array);
             actual.AddArrayToIndex(adArray, index);
             Assert.AreEqual(expected, actual);
+        }
+
+        [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { -1, -2, -3, 1, 2, 3, 4, 5 }, new int[] { -1, -2, -3 }, -1)]
+        [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { 1, 2, 3, 0, 66, 77, 4, 5 }, new int[] { 0, 66, 77 }, 8)]
+        [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { 1, 2, 3, 4, 5, 11, 0 }, new int[] { 11, 0 }, -12)]
+        public void AddArrayToIndexTestNegative(int[] array, int[] expArray, int[] adArray, int index)
+        {
+            ArrayList expected = new ArrayList(expArray);
+            ArrayList actual = new ArrayList(array);
+            Assert.Throws<Exception>(() => {
+                actual.AddArrayToIndex(adArray, index);
+            }); ;
         }
 
         [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { 9, 1, 2, 3, 4, 5 }, 9)]
