@@ -112,15 +112,31 @@ namespace SelfMadeList
             }
         }
 
-        // Метод. Добавляет 1 значение в конец массива. При необходимости увеличивает размер массива вложенным методом. Изменяет длинну Листа на 1 элемент
+        // Метод. Добавляет 1 значение в конец. При необходимости увеличивает размер массива вложенным методом. Изменяет длинну Листа на 1 элемент
         public void Add(int value)
         {
             if (_ArrayLength <= ListLength)
             {
-                IncreaseListLength();
+                IncreaseLength();
             }
             _array[ListLength] = value;
             ListLength++;
+        }
+
+        // Метод. Добавляет новый массив в конец. При необходимости увеличивает размер массива вложенным методом и на каждой итерации цикла. Изменяет длинну листа на длинну добавляемого массива
+        public void AddArray(int [] adArray)
+        {
+            if (_ArrayLength <= ListLength)
+            {
+                IncreaseLength(adArray.Length);
+            }
+
+            for (int i = 0; i < adArray.Length; i++)
+            {
+                _array [i + ListLength] = adArray[i];
+                 IncreaseLength();
+            }
+            ListLength+=adArray.Length;
         }
 
         // Метод. Добавляет 1 значение в начало массива вложенным методом. При необходимости увеличивает размер массива вложенным методом. Изменяет длинну Листа на 1 элемент
@@ -128,10 +144,26 @@ namespace SelfMadeList
         {
             if (_ArrayLength <= ListLength)
             {
-                IncreaseListLength();
+                IncreaseLength();
             }
-            MoveForwardFrom0toNumber(_array);
+            MoveForwardFrom0toNumber();
             _array[0] = value;
+            ListLength++;
+        }
+
+        // Метод. Добавляет массив в начало.
+        public void AddArrayToStart(int [] adArray)
+        {
+            if (_ArrayLength <= ListLength)
+            {
+                IncreaseLength();
+            }
+            MoveForwardFrom0toNumber(adArray.Length);
+            for (int i = 0; i < adArray.Length; i++)
+            {
+                _array[i] = adArray[i];
+                IncreaseLength();
+            }
             ListLength++;
         }
 
@@ -144,7 +176,7 @@ namespace SelfMadeList
             }
             if (_ArrayLength <= ListLength)
             {
-                IncreaseListLength();
+                IncreaseLength();
             }
             MoveForwardFromIndex(_array, index);
             _array[index] = value;
@@ -157,7 +189,7 @@ namespace SelfMadeList
             ListLength--;
             if (_ArrayLength >= ListLength)
             {
-                DecreaseListLength();
+                DecreaseLength();
             }
         }
 
@@ -178,7 +210,7 @@ namespace SelfMadeList
                 ListLength -= number;
                 if (_ArrayLength >= ListLength)
                 {
-                    DecreaseListLength();
+                    DecreaseLength();
                 }
             }
         }
@@ -190,7 +222,7 @@ namespace SelfMadeList
             ListLength--;
             if (_ArrayLength >= ListLength)
             {
-                DecreaseListLength();
+                DecreaseLength();
             }
         }
 
@@ -212,7 +244,7 @@ namespace SelfMadeList
                 ListLength -= number;
                 if (_ArrayLength >= ListLength)
                 {
-                DecreaseListLength();
+                DecreaseLength();
                 }
             }
         }
@@ -228,7 +260,7 @@ namespace SelfMadeList
             ListLength--;
             if (_ArrayLength >= ListLength)
             {
-                DecreaseListLength();
+                DecreaseLength();
             }
         }
         
@@ -252,7 +284,7 @@ namespace SelfMadeList
             ListLength -= number;
             if (_ArrayLength >= ListLength)
             {
-                DecreaseListLength();
+                DecreaseLength();
             }
         }
 
@@ -396,15 +428,22 @@ namespace SelfMadeList
             }
             return true;
         }
+
+        // Переcоздаем метод ToString() для удобного вывода объектов класса в одну строку
+        public override string ToString()
+        {
+            return string.Join(";", _array.Take(ListLength));
+        }
+
         // КОНЕЦ ПУБЛИЧНЫХ МЕТОДОВ ДЛЯ КЛАССА ===================================================================================
 
         // Метод. Увеличивает размер массива и класса на number элементов
-        private void IncreaseListLength(int number = 1)
+        private void IncreaseLength(int number = 1)
         {
             int newListLength = _ArrayLength;
             while (newListLength <= ListLength + number)
             {
-                newListLength = (int)(newListLength * LengthUpMultiplier + 1);
+                newListLength = (int)(newListLength * LengthUpMultiplier + 1 + number);
             }
             int[] newArray = new int[newListLength];
             Array.Copy(_array, newArray, _ArrayLength);
@@ -412,7 +451,7 @@ namespace SelfMadeList
         }
 
         // Метод. Уменьшает размер Листа и массива
-        private void DecreaseListLength()
+        private void DecreaseLength()
         {
             int newListLength = _ArrayLength;
             while (newListLength >= 2* ListLength )
@@ -425,7 +464,7 @@ namespace SelfMadeList
         }
 
         // Метод. Сдвигает  вперед на number элементов
-        private void MoveForwardFrom0toNumber(int[] _array, int number=1)
+        private void MoveForwardFrom0toNumber(int number=1)
         {
             for (int i = ListLength - 1; i >= 0; i--)
             {
@@ -477,12 +516,5 @@ namespace SelfMadeList
                 _array[i] = _array[i + number];
             }
         }
-
-        // Перегружаем метод ToString() для удобного вывода объектов класса в одну строку
-        public override string ToString()
-        {
-            return string.Join(";", _array.Take(ListLength));
-        }
-      
     }
 }

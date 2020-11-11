@@ -211,6 +211,28 @@ namespace SelfMadeListTest
             Assert.AreEqual(expected, actual);
         }
 
+        [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { 1, 2, 3, 4, 5, -1, -2, -3 }, new int[] { -1, -2, -3 })]
+        [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { 1, 2, 3, 4, 5, 0 }, new int[] {0})]
+        [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { 1, 2, 3, 4, 5 }, new int[0])]
+        public void AddArrayTest(int[] array, int[] expArray, int [] adArray)
+        {
+            ArrayList expected = new ArrayList(expArray);
+            ArrayList actual = new ArrayList(array);
+            actual.AddArray(adArray);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { -1, -2, -3, 1, 2, 3, 4, 5}, new int[] { -1, -2, -3 })]
+        [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] {0, 1, 2, 3, 4, 5}, new int[] { 0 })]
+        [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { 1, 2, 3, 4, 5 }, new int[0])]
+        public void AddArrayToStartTest(int[] array, int[] expArray, int[] adArray)
+        {
+            ArrayList expected = new ArrayList(expArray);
+            ArrayList actual = new ArrayList(array);
+            actual.AddArrayToStart(adArray);
+            Assert.AreEqual(expected, actual);
+        }
+
         [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { 9, 1, 2, 3, 4, 5 }, 9)]
         public void AddToStartTest(int[] array, int[] expArray, int value)
         {
