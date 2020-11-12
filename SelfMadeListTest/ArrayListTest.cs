@@ -108,6 +108,7 @@ namespace SelfMadeListTest
 
         [TestCase(new int[] { 4, 6, 2, 1, 3 }, new int[] { 1, 2, 3, 4, 6 })]
         [TestCase(new int[] { -1, 0, 2, 6, -11 }, new int[] { -11, -1, 0, 2, 6 })]
+        [TestCase(new int[] { -15, 0, 12, 0, 1 }, new int[] { -15, 0, 0, 1, 12 })]
         public void SortAcsendingTest(int[] array, int[] expArray)
         {
             ArrayList expected = new ArrayList(expArray);
@@ -118,6 +119,7 @@ namespace SelfMadeListTest
 
         [TestCase(new int[] { 4, 6, 2, 1, 3 }, new int[] { 6, 4, 3, 2, 1 })]
         [TestCase(new int[] { -1, 3, 2, 6, -11 }, new int[] { 6, 3, 2, -1, -11 })]
+        [TestCase(new int[] { -11, 13, 22, 06, 0 }, new int[] { 22, 13, 06, 0, -11 })]
         public void SortDescendingTest(int[] array, int[] expArray)
         {
             ArrayList expected = new ArrayList(expArray);
