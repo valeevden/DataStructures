@@ -136,6 +136,8 @@ namespace SelfMadeListTest
         }
 
         [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7 }, new int[] { 1, 2, 3, }, 4)]
+        [TestCase(new int[] { 1, 2, 3, 4 }, new int[] { 1, 2, 3, 4 }, 0)]
+        [TestCase(new int[] { }, new int[] { }, 9)]
         public void DelLastNElementsTest(int[] array, int[] expArray, int number)
         {
             ArrayList expected = new ArrayList(expArray);
@@ -145,6 +147,8 @@ namespace SelfMadeListTest
         }
 
         [TestCase(new int[] { 1, 2, 3, 4, 5}, new int[] { 2, 3, 4, 5 })]
+        [TestCase(new int[] { 1 }, new int[] { })]
+        [TestCase(new int[] {}, new int[] {})]
         public void DelFirstTest(int[] array, int[] expArray)
         {
             ArrayList expected = new ArrayList(expArray);
@@ -154,6 +158,8 @@ namespace SelfMadeListTest
         }
         
         [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7 }, new int[] { 4, 5, 6, 7 }, 3)]
+        [TestCase(new int[] { 1 }, new int[] {}, 3)]
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7 }, new int[] { 1, 2, 3, 4, 5, 6, 7 }, -3)]
         public void DelFirstNElementsTest(int[] array, int[] expArray, int number)
         {
             ArrayList expected = new ArrayList(expArray);

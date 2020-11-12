@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace SelfMadeList
@@ -235,6 +236,11 @@ namespace SelfMadeList
         // Метод. Удаляет с начала один элемент. При необходимости сокращает размер массива вложенным методом. Изменяет длинну Листа на -1 элемент
         public void DelFirst()
         {
+            if (ListLength <= 1)
+            {
+                ListLength = 0;
+                return;
+            }
             DelFistElement();
             ListLength--;
             if (_ArrayLength >= ListLength)
@@ -246,24 +252,24 @@ namespace SelfMadeList
         // Метод. Удаляет с начала N элементов. При необходимости сокращает размер массива вложенным методом. Изменяет длинну Листа на N элемент
         public void DelFirstNElements(int number)
         {
+            if (ListLength <= 1 || number >= ListLength)
+            {
+                ListLength = 0;
+                return;
+            }
             if (number < 0)
             {
                 number = 0;
             }
-            if (number >= ListLength)
-            {
-                ListLength = 0;
-                //_array = new int[9];
-            }
-            else
-            {
+               else
+                {
                 DelFistNumberElements(number);
                 ListLength -= number;
-                if (_ArrayLength >= ListLength)
-                {
-                DecreaseLength();
+                    if (_ArrayLength >= ListLength)
+                    {
+                    DecreaseLength();
+                    }
                 }
-            }
         }
 
         // Метод. Удаляет элемент по индексу. При необходимости сокращает размер массива вложенным методом. Изменяет длинну Листа на -1 элемент
@@ -501,6 +507,11 @@ namespace SelfMadeList
         // Метод. Удаляет первый элемент
         private void DelFistElement()
         {
+            if (ListLength <=1)
+            {
+                ListLength = 0;
+                return;
+            }
             for (int i = 0; i < ListLength; i++)
             {
                 _array[i] = _array[i + 1];

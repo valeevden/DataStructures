@@ -138,17 +138,24 @@ namespace SelfMadeList.LinkedLists
             }
             return s;
         }
-        // Метод добавления 1 значения в конец.
+        // Метод добавления 1 значения в конец. Увеличивает лист на 1
         public void Add(int value)
         {
             Node tmp;
-            if (_root.Next == null)
+            if (Length == 1)
             {
                 tmp = new Node(value);
                 _root.Next = tmp;
                 Length++;
                 return;
             }
+            //if (_root.Next == null)
+            //{
+            //    tmp = new Node(value);
+            //    _root.Next = tmp;
+            //    Length++;
+            //    return;
+            //}
             tmp = _root;
             for (int i = 1; i <= Length; i++)
             {
@@ -163,5 +170,73 @@ namespace SelfMadeList.LinkedLists
             }
             Length++;
         }
+
+        // Метод. Добавляет 1 значение в начало. Увеличивает лист на 1 элемент
+        public void AddToStart(int value)
+        {
+            Node addNew = new Node(value);
+            addNew.Next = _root;
+            _root = addNew;
+           Length++;
+        }
+        // Метод. Удаляет number элементов
+        public void DelLastNElements(int number)
+        {
+            if (number < 0)
+            {
+                number = 0;
+            }
+            if (number >= Length)
+            {
+                Length = 0;
+            }
+            else
+            {
+                Length -= number;
+            }
+        }
+        
+        // Метод. Удаляет первый элемент
+        public void DelFirst()
+        {
+            if (Length <= 1)
+            {
+                Length = 0;
+                return;
+            }
+            _root = _root.Next;
+            Length--;
+        }
+
+        // Метод. Удаляет первый элемент
+        public void DelFirstNElements(int number)
+        {
+            if (Length <= 1 || number >= Length)
+            {
+                Length = 0;
+                return;
+            }
+            if (number < 0)
+            {
+                number = 0;
+            }
+            else
+            {
+                Node current = _root;
+                for (int i = 1; i < number; i++)
+                {
+                current = current.Next;
+                }
+                _root.Next = current;
+                _root = current.Next;
+                Length -= number;
+            }
+            //Node tmp = current.Next;
+            //current.Next = new Node(value);
+
+            //current.Next.Next = tmp;
+
+        }
+
     }
 }
