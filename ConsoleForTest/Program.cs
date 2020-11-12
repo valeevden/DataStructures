@@ -35,10 +35,11 @@ namespace ConsoleForTest
             //Console.WriteLine(array2.Length);
 
             ArrayList artest = new ArrayList();
-            artest.Add(3);
-            artest.AddToStart(5);
-            int f = artest.ListLength;
-            Console.WriteLine(f);
+            artest.AddArrayToStart(new int [] { 0, 2, 4, 5, 6});
+            artest[3]=99;
+            Console.WriteLine(artest[4]);
+            //int f = artest.ListLength;
+            //Console.WriteLine(f);
 
 
         }

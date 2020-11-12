@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace SelfMadeList.LinkedLists
@@ -8,6 +9,7 @@ namespace SelfMadeList.LinkedLists
     {
         public int Length { get; set; }
 
+        // Переменная _root для хранения ссылки на первый элемент
         private Node _root;
         // Индексатор класса
         public int this[int index]
@@ -213,6 +215,7 @@ namespace SelfMadeList.LinkedLists
         {
             if (Length <= 1 || number >= Length)
             {
+                
                 Length = 0;
                 return;
             }
@@ -222,21 +225,45 @@ namespace SelfMadeList.LinkedLists
             }
             else
             {
-                Node current = _root;
+                Node current = _root; // создаем переменную current для хранения ссылки на Node (_root)
                 for (int i = 1; i < number; i++)
                 {
                 current = current.Next;
                 }
-                _root.Next = current;
+             //   _root.Next = current;
                 _root = current.Next;
                 Length -= number;
             }
-            //Node tmp = current.Next;
-            //current.Next = new Node(value);
-
-            //current.Next.Next = tmp;
-
         }
+
+        public void DelIndex(int index)
+        {
+            if (Length <= 1)
+            {
+                Length = 0;
+                return;
+            }
+            if (index > Length || index < 0)
+            {
+                throw new IndexOutOfRangeException();
+            }
+            if (index == 0)
+            {
+                _root = _root.Next;
+                Length--;
+            }
+            else
+            {
+                Node current = _root; // создаем переменную current для хранения ссылки на Node (_root)
+                for (int i = 1; i < index; i++)
+                {
+                    current = current.Next;
+                }
+                current.Next = current.Next.Next;
+                Length --;
+            }
+        }
+
 
     }
 }

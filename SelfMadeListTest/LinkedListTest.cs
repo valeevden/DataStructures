@@ -79,5 +79,16 @@ namespace SelfMadeListTest
             actual.DelFirstNElements(number);
             Assert.AreEqual(expected, actual);
         }
+
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7 }, new int[] { 1, 2, 3, 5, 6, 7 }, 3)]
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7 }, new int[] { 2, 3, 4, 5, 6, 7 }, 0)]
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7 }, new int[] { 1, 2, 3, 4, 5, 6 }, 6)]
+        public void DelIndexTest(int[] array, int[] expArray, int index)
+        {
+            LinkedList expected = new LinkedList(expArray);
+            LinkedList actual = new LinkedList(array);
+            actual.DelIndex(index);
+            Assert.AreEqual(expected, actual);
+        }
     }
 }
