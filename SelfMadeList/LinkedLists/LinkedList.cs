@@ -9,7 +9,7 @@ namespace SelfMadeList.LinkedLists
         public int Length { get; set; }
 
         private Node _root;
-
+        // Индексатор класса
         public int this[int index]
         {
             get
@@ -33,18 +33,19 @@ namespace SelfMadeList.LinkedLists
             }
         }
 
+        // Конструктор.Создает пустой лист
         public LinkedList()
         {
             Length = 0;
             _root = null;
         }
-
+        // Конструктор на основе одного элемента
         public LinkedList(int value)
         {
             _root = new Node(value);
             Length = 1;
         }
-
+        // Конструктор на основании массива
         public LinkedList(int[] array)
         {
             if (array.Length != 0)
@@ -57,7 +58,6 @@ namespace SelfMadeList.LinkedLists
                     tmp.Next = new Node(array[i]);
                     tmp = tmp.Next;
                 }
-
                 Length = array.Length;
             }
             else
@@ -90,7 +90,7 @@ namespace SelfMadeList.LinkedLists
             }
             Length++;
         }
-
+        // Перегружаем метод Сравнения для класса
         public override bool Equals(object obj)
         {
             LinkedList linkedList = (LinkedList)obj;
@@ -121,7 +121,7 @@ namespace SelfMadeList.LinkedLists
             }
             return true;
         }
-
+        // Перегружаем ToString для вывода листа в одну строку
         public override string ToString()
         {
             string s = "";
@@ -137,6 +137,31 @@ namespace SelfMadeList.LinkedLists
                 }
             }
             return s;
+        }
+        // Метод добавления 1 значения в конец.
+        public void Add(int value)
+        {
+            Node tmp;
+            if (_root.Next == null)
+            {
+                tmp = new Node(value);
+                _root.Next = tmp;
+                Length++;
+                return;
+            }
+            tmp = _root;
+            for (int i = 1; i <= Length; i++)
+            {
+                tmp = tmp.Next;
+                if (tmp.Next == null)
+                {
+                    Node newNode;
+                    newNode = new Node(value);
+                    //Node newNode1 = new Node(value);
+                    tmp.Next = newNode;
+                }
+            }
+            Length++;
         }
     }
 }

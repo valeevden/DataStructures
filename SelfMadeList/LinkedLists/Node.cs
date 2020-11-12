@@ -21,7 +21,7 @@ namespace SelfMadeList.LinkedLists
         {
             Next = null;
         }
-        // Конструктор. На входе нода, на выходе копирует ноду.
+        // Конструктор. На входе нода, на выходе копирует ноду
         public Node(Node node)
         {
             Next = node.Next;
