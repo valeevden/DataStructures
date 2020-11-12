@@ -264,7 +264,7 @@ namespace SelfMadeListTest
         {
             ArrayList expected = new ArrayList(expArray);
             ArrayList actual = new ArrayList(array);
-            Assert.Throws<Exception>(() => {
+            Assert.Throws<IndexOutOfRangeException>(() => {
                 actual.AddArrayToIndex(adArray, index);
             }); ;
         }
@@ -274,19 +274,32 @@ namespace SelfMadeListTest
         {
             ArrayList expected = new ArrayList(expArray);
             ArrayList actual = new ArrayList(array);
-            
             actual.AddToStart(value);
             Assert.AreEqual(expected, actual);
         } 
 
         [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { 1, 2, 9, 3, 4, 5 }, 2, 9)]
+        [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { -1, 1, 2, 3, 4, 5 }, 0, -1)]
+        [TestCase(new int[] {0}, new int[] { 44, 0 }, 0, 44)]
+        [TestCase(new int[] {0}, new int[] { 0, 44 }, 1, 44)]
         public void AddToIndexTest(int[] array, int[] expArray, int index, int value)
         {
             ArrayList expected = new ArrayList(expArray);
             ArrayList actual = new ArrayList(array);
-            
             actual.AddToIndex(index, value);
             Assert.AreEqual(expected, actual);
+        }
+
+        [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { 1, 2, 9, 3, 4, 5 }, -1, 9)]
+        [TestCase(new int[] { 1, 2,}, new int[] { -1, 1, 2, 3, 4, 5 }, 3, -1)]
+        [TestCase(new int[] {0}, new int[] { 1, 2, 3, 4, 5, 44 }, 2, 44)]
+        public void AddToIndexTestNegative(int[] array, int[] expArray, int index, int value)
+        {
+            ArrayList expected = new ArrayList(expArray);
+            ArrayList actual = new ArrayList(array);
+            Assert.Throws<IndexOutOfRangeException>(() => {
+                actual.AddToIndex(index, value);
+            }); ;
         }
     }
 }

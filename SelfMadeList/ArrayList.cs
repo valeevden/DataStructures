@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -171,7 +171,7 @@ namespace SelfMadeList
         {
             if (index > ListLength || index < 0)
             {
-                throw new Exception("Out of range exception");
+                throw new IndexOutOfRangeException("Out of range exception");
             }
             if (_ArrayLength <= ListLength)
             {
@@ -187,7 +187,7 @@ namespace SelfMadeList
         {
             if (index > ListLength || index < 0)
             {
-                throw new Exception("Out of range exception");
+                throw new IndexOutOfRangeException("Out of range exception");
             }
             if (_ArrayLength <= ListLength + adArray.Length)
             {
