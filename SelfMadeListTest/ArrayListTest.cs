@@ -129,6 +129,9 @@ namespace SelfMadeListTest
         }
 
         [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { 1, 2, 3, 4 })]
+        [TestCase(new int[] {1, 0}, new int[] {1})]
+        [TestCase(new int[] {0}, new int[] {})]
+        [TestCase(new int[] { }, new int[] { })]
         public void DelLastTest(int[] array, int[] expArray)
         {
             ArrayList expected = new ArrayList(expArray);
@@ -140,6 +143,8 @@ namespace SelfMadeListTest
         [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7 }, new int[] { 1, 2, 3, }, 4)]
         [TestCase(new int[] { 1, 2, 3, 4 }, new int[] { 1, 2, 3, 4 }, 0)]
         [TestCase(new int[] { }, new int[] { }, 9)]
+        [TestCase(new int[] { }, new int[] { }, 0)]
+        [TestCase(new int[] {1}, new int[] { }, 1)]
         public void DelLastNElementsTest(int[] array, int[] expArray, int number)
         {
             ArrayList expected = new ArrayList(expArray);
@@ -162,6 +167,7 @@ namespace SelfMadeListTest
         [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7 }, new int[] { 4, 5, 6, 7 }, 3)]
         [TestCase(new int[] { 1 }, new int[] {}, 3)]
         [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7 }, new int[] { 1, 2, 3, 4, 5, 6, 7 }, -3)]
+        [TestCase(new int[] { }, new int[] { }, 1)]
         public void DelFirstNElementsTest(int[] array, int[] expArray, int number)
         {
             ArrayList expected = new ArrayList(expArray);
@@ -173,6 +179,8 @@ namespace SelfMadeListTest
         [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7 }, new int[] { 1, 2, 3, 5, 6, 7 }, 3)]
         [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7 }, new int[] { 2, 3, 4, 5, 6, 7 }, 0)]
         [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7 }, new int[] { 1, 2, 3, 4, 5, 6 }, 6)]
+        [TestCase(new int[] { 1 }, new int[] { }, 0)]
+        [TestCase(new int[] {  }, new int[] { }, 0)]
         public void DelIndexTest(int[] array, int[] expArray, int index)
         {
             ArrayList expected = new ArrayList(expArray);
@@ -195,9 +203,15 @@ namespace SelfMadeListTest
 
         [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7 }, new int[] { 1, 2, 4, 5, 6, 7 }, 3)]
         [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 3 }, new int[] { 1, 2, 4, 5, 6 }, 3)]
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, }, new int[] { 2, 3, 4, 5, 6 }, 1)]
         [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7 }, new int[] { 1, 2, 3, 4, 5, 6, 7 }, 9)]
         [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7 }, new int[] { 1, 2, 3, 4, 5, 6, 7 }, 0)] 
-       // [TestCase(new int[] { 1, 1, 1 }, new int[] { }, 1)]  не работает
+        [TestCase(new int[] { 1, 2, 1, 4, 1, 1, 7 }, new int[] { 2, 4, 7 }, 1)] 
+       // [TestCase(new int[] { 1, 1, 1, 1, 1, 1, 7 }, new int[] {}, 1)] 
+        [TestCase(new int[] { 1, 2, 3 }, new int[] {2, 3, }, 1)]
+        [TestCase(new int[] { 1, 1, 1 }, new int[] { }, 1)]
+        [TestCase(new int[] { 3, 2, 1 }, new int[] {3,2}, 1)]
+        [TestCase(new int[] { 1 }, new int[] { }, 1)]
         public void DelAllValueTest(int[] array, int[] expArray, int value)
         {
             ArrayList expected = new ArrayList(expArray);
@@ -209,6 +223,9 @@ namespace SelfMadeListTest
         [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7, 8 }, new int[] { 1, 2, 3, 7, 8 }, 3, 3)]
         [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7, 8 }, new int[] { 1, 2, 3 }, 3, 9)]
         [TestCase(new int[] { 1, 2, 3, 4 }, new int[] { 1, 2, 3, 4 }, 3, -2)]
+        [TestCase(new int[] { 1, 2, 3, 4 }, new int[] { 1, 2, 3 }, 3, 3)]
+        [TestCase(new int[] { 1 }, new int[] { }, 1, 10)]
+        [TestCase(new int[] { }, new int[] { }, 0, 10)]
         public void DelElementStartFromIndexTest(int[] array, int[] expArray, int index, int number)
         {
             ArrayList expected = new ArrayList(expArray);
@@ -218,6 +235,8 @@ namespace SelfMadeListTest
         }
 
         [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { 1, 2, 3, 4, 5, 6 }, 6)]
+        [TestCase(new int[] { }, new int[] {-1 }, -1)]
+        [TestCase(new int[] { }, new int[] { 0 }, 0)]
         public void AddTest(int[] array, int[] expArray, int value)
         {
             ArrayList expected = new ArrayList(expArray);
