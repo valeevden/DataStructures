@@ -91,5 +91,90 @@ namespace SelfMadeListTest
             actual.DelIndex(index);
             Assert.AreEqual(expected, actual);
         }
+
+        [TestCase(new int[] { 1, 2, 3, 4 }, 4, 3)]
+        [TestCase(new int[] { 0, -3, 99, 6, }, 4, -1)]
+        [TestCase(new int[] { 0, -3, 99, 6, }, 99, 2)]
+        public void GetIndexByValueTest(int[] array, int value, int expIndex)
+        {
+            int actual = new LinkedList(array).GetIndexByValue(value);
+            int expected = expIndex;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestCase(new int[] { 1, 2, 3, 4 }, 4)]
+        [TestCase(new int[] { 0, -3, 99, 6, }, 99)]
+        [TestCase(new int[] { -11, -3, -1, -7, }, -1)]
+        public void GetMaxTest(int[] array, int expValue)
+        {
+            int actual = new LinkedList(array).GetMax();
+            int expected = expValue;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestCase(new int[] { 1, 2, 3, 4 }, 1)]
+        [TestCase(new int[] { 0, -3, 99, 6, }, -3)]
+        [TestCase(new int[] { -11, -3, -1, -7, }, -11)]
+        public void GetMinTest(int[] array, int expValue)
+        {
+            int actual = new LinkedList(array).GetMin();
+            int expected = expValue;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestCase(new int[] { 1, 2, 3, 4 }, 0)]
+        [TestCase(new int[] { 0, -3, 99, 6, }, 1)]
+        [TestCase(new int[] { -11, -3, -1, -17, }, 3)]
+        public void GetMinIndexTest(int[] array, int expIndex)
+        {
+            int actual = new LinkedList(array).GetMinIndex();
+            int expected = expIndex;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestCase(new int[] { 1, 2, 3, 4 }, 3)]
+        [TestCase(new int[] { 0, -3, 99, 6, }, 2)]
+        [TestCase(new int[] { -11, 7, -1, -17, }, 1)]
+        public void GetMaxIndexTest(int[] array, int expIndex)
+        {
+            int actual = new LinkedList(array).GetMaxIndex();
+            int expected = expIndex;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7 }, new int[] { 1, 2, 4, 5, 6, 7 }, 3)]
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, }, new int[] { 1, 2, 4, 5, 6 }, 3)]
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, }, new int[] { 2, 3, 4, 5, 6 }, 1)]
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7 }, new int[] { 1, 2, 3, 4, 5, 7 }, 6)]
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7 }, new int[] { 1, 2, 3, 4, 5, 6 }, 7)]
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7 }, new int[] { 1, 2, 3, 4, 5, 6, 7 }, 9)]
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7 }, new int[] { 1, 2, 3, 4, 5, 6, 7 }, 0)]
+        [TestCase(new int[] { 1, 2, 3 }, new int[] { 2, 3, }, 1)]
+        [TestCase(new int[] { 3, 2, 1 }, new int[] { 3, 2 }, 1)]
+        [TestCase(new int[] { 1 }, new int[] { }, 1)]
+        public void DelValueTest(int[] array, int[] expArray, int value)
+        {
+            LinkedList expected = new LinkedList(expArray);
+            LinkedList actual = new LinkedList(array);
+            actual.DelValue(value);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7 }, new int[] { 1, 2, 3, 4, 5, 6, 7 }, 9)]
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7 }, new int[] { 1, 2, 3, 4, 5, 6, 7 }, 0)]
+        [TestCase(new int[] { 1, 2, 1, 4, 1, 1, 7 }, new int[] { 2, 4, 7 }, 1)]
+        [TestCase(new int[] { 1, 1, 1, 1, 1, 1, 7 }, new int[] { 7 }, 1)]
+        [TestCase(new int[] { 1, 1, 1, 7 }, new int[] { 7 }, 1)]
+        [TestCase(new int[] { 1, 2, 3 }, new int[] { 2, 3, }, 1)]
+        [TestCase(new int[] { 1, 1, 1 }, new int[] { }, 1)]
+        [TestCase(new int[] { 3, 2, 1 }, new int[] { 3, 2 }, 1)]
+        [TestCase(new int[] { 1 }, new int[] { }, 1)]
+        public void DelAllValueTest(int[] array, int[] expArray, int value)
+        {
+            LinkedList expected = new LinkedList(expArray);
+            LinkedList actual = new LinkedList(array);
+            actual.DelALLValue(value);
+            Assert.AreEqual(expected, actual);
+        }
     }
 }

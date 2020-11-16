@@ -479,6 +479,11 @@ namespace SelfMadeList
             }
             return true;
         }
+        // Задаем стандартный Хэш
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
 
         // Переcоздаем метод ToString() для удобного вывода объектов класса в одну строку
         public override string ToString()
