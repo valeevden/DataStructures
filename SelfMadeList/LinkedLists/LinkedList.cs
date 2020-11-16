@@ -7,7 +7,7 @@ namespace SelfMadeList.LinkedLists
 {
     public class LinkedList
     {
-        public int Length { get; set; }
+        public int Length { get; private set; }
 
         // Переменная _root для хранения ссылки на первый элемент
         private Node _root;
@@ -34,7 +34,6 @@ namespace SelfMadeList.LinkedLists
                 tmp.Value = value;
             }
         }
-
         // Конструктор.Создает пустой лист
         public LinkedList()
         {
@@ -60,7 +59,8 @@ namespace SelfMadeList.LinkedLists
                     tmp.Next = new Node(array[i]);
                     tmp = tmp.Next;
                 }
-                Length = array.Length;
+                tmp.Next = null;
+                Length = array.Length; 
             }
             else
             {
@@ -71,26 +71,43 @@ namespace SelfMadeList.LinkedLists
 
         public void AddByIndex(int index, int value)
         {
+            if (index < 0 || index > Length)
+            {
+                throw new IndexOutOfRangeException();
+            }
+
             if (index == 0)
             {
-                Node tmp = _root;
-                _root = new Node(value);
-                _root.Next = tmp;
+                // Альтернативный вариант плохо понятно
+                //Node tmp = _root;
+                //_root = new Node(value);
+                //_root.Next = tmp;
+                Node tmp = new Node(value); // Создаем новую ноду tmp сбоку
+                tmp.Next = _root; // Новая нода tmp теперь ссылается на ссылается туда же куда и root. В руте хранится ссылка, поэтому не обязательно писать _root.next
+                _root = tmp; // root теперь ссылается на новую ноду tmp
             }
             else
             {
                 Node current = _root;
-                for (int i = 1; i < index; i++)
+                //Альтернативный вариант плохо понятен
+                //for (int i = 1; i < index; i++)
+                //{
+                //    current = current.Next;
+                //}
+                //Node tmp = current.Next;
+                //current.Next = new Node(value);
+                //current.Next.Next = tmp; 
+
+                for (int i = 0; i < index - 1; i++)
                 {
                     current = current.Next;
                 }
-
-                Node tmp = current.Next;
-                current.Next = new Node(value);
-
-                current.Next.Next = tmp;
+                Node tmp = new Node(value); // Создаем новую ноду tmp сбоку
+                tmp.Next = current.Next; // Новая нода tmp теперь ссылается туда же куда ссылается crnt
+                current.Next = tmp; // crnt теперь ссылается на новую ноду tmp
             }
             Length++;
+
         }
         // Перегружаем метод Сравнения для класса
         public override bool Equals(object obj)
@@ -140,11 +157,17 @@ namespace SelfMadeList.LinkedLists
             }
             return s;
         }
+        // Задаем стандартный Хэш
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
         // Метод добавления 1 значения в конец. Увеличивает лист на 1
         public void Add(int value)
         {
             Node tmp;
-            if (Length == 1)
+            if (Length == 1 )
             {
                 tmp = new Node(value);
                 _root.Next = tmp;
