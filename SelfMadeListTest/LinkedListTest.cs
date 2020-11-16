@@ -11,6 +11,7 @@ namespace SelfMadeListTest
 
         [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { 1, 2, 3, 4, 5, 6 }, 6)]
         [TestCase(new int[] { 1 }, new int[] { 1, -8 }, -8)]
+     // [TestCase(new int[] {  }, new int[] { -8 }, -8)]
         [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { 1, 2, 3, 4, 5, 0 }, 0)]
         public void AddTest(int[] array, int[] expArray, int value)
         {
