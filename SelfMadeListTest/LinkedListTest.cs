@@ -176,5 +176,31 @@ namespace SelfMadeListTest
             actual.DelALLValue(value);
             Assert.AreEqual(expected, actual);
         }
+
+        [TestCase(new int[] { 1, 2, 3, 4 }, new int[] { 4, 3, 2, 1 })]
+        [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { 5, 4, 3, 2, 1 })]
+        [TestCase(new int[] { }, new int[] { })]
+        [TestCase(new int[] { 1 }, new int[] { 1 })]
+        public void ReverseTest(int[] array, int[] expArray)
+        {
+            LinkedList expected = new LinkedList(expArray);
+            LinkedList actual = new LinkedList(array);
+            actual.Reverse();
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestCase(new int[] {1}, new int[] { 1, -1, -2, -3 }, new int[] { -1, -2, -3 })]
+        [TestCase(new int[] {}, new int[] { -1, -2, -3 }, new int[] { -1, -2, -3 })]
+        [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { 1, 2, 3, 4, 5, -1, -2, -3 }, new int[] { -1, -2, -3 })]
+        [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { 1, 2, 3, 4, 5, -99, -99, 0 }, new int[] { -99, -99, 0 })]
+        [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { 1, 2, 3, 4, 5, 0 }, new int[] { 0 })]
+        [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { 1, 2, 3, 4, 5 }, new int[0])]
+        public void AddArrayTest(int[] array, int[] expArray, int[] adArray)
+        {
+            LinkedList expected = new LinkedList(expArray);
+            LinkedList actual = new LinkedList(array);
+            actual.AddArray(adArray);
+            Assert.AreEqual(expected, actual);
+        }
     }
 }

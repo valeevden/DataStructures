@@ -207,8 +207,9 @@ namespace SelfMadeListTest
         [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7 }, new int[] { 1, 2, 3, 4, 5, 6, 7 }, 9)]
         [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7 }, new int[] { 1, 2, 3, 4, 5, 6, 7 }, 0)] 
         [TestCase(new int[] { 1, 2, 1, 4, 1, 1, 7 }, new int[] { 2, 4, 7 }, 1)] 
-       // [TestCase(new int[] { 1, 1, 1, 1, 1, 1, 7 }, new int[] {7}, 1)] 
-       // [TestCase(new int[] { 1, 1, 1,  7 }, new int[] {7}, 1)] 
+        //[TestCase(new int[] { 1, 1, 1, 1, 1, 1, 7 }, new int[] {7}, 1)] 
+        //[TestCase(new int[] { 1, 1, 1, 7 }, new int[] {7}, 1)] 
+        [TestCase(new int[] { 1, 1, 1, 7, 7 }, new int[] {7, 7}, 1)] 
         [TestCase(new int[] { 1, 2, 3 }, new int[] {2, 3, }, 1)]
         [TestCase(new int[] { 1, 1, 1 }, new int[] { }, 1)]
         [TestCase(new int[] { 3, 2, 1 }, new int[] {3,2}, 1)]
@@ -247,8 +248,9 @@ namespace SelfMadeListTest
         }
 
         [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { 1, 2, 3, 4, 5, -1, -2, -3 }, new int[] { -1, -2, -3 })]
+        [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { 1, 2, 3, 4, 5, -99, -99, 0 }, new int[] { -99, -99, 0 })]
         [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { 1, 2, 3, 4, 5, 0 }, new int[] {0})]
-        [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { 1, 2, 3, 4, 5 }, new int[0])]
+        [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { 1, 2, 3, 4, 5 }, new int[] { })]
         public void AddArrayTest(int[] array, int[] expArray, int [] adArray)
         {
             ArrayList expected = new ArrayList(expArray);
@@ -258,8 +260,9 @@ namespace SelfMadeListTest
         }
 
         [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { -1, -2, -3, 1, 2, 3, 4, 5}, new int[] { -1, -2, -3 })]
+        [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { -1, -2, -3, 1, 2, 3, 4, 5}, new int[] { -1, -2, -3 })]
         [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] {0, 1, 2, 3, 4, 5}, new int[] { 0 })]
-        [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { 1, 2, 3, 4, 5 }, new int[0])]
+        [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { 1, 2, 3, 4, 5 }, new int[] { })]
         public void AddArrayToStartTest(int[] array, int[] expArray, int[] adArray)
         {
             ArrayList expected = new ArrayList(expArray);

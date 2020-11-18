@@ -27,5 +27,11 @@ namespace SelfMadeList.LinkedLists
             Next = node.Next;
             Value = node.Value;
         }
+
+        // Перезаписываем ToString для удобства дебага
+        public override string ToString()
+        {
+            return $"{Value}";
+        }
     }
 }

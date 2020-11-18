@@ -436,17 +436,57 @@ namespace SelfMadeList.LinkedLists
                     tmp = tmp.Next;
                 }
             }
-
             Length -= count;
-            //while (tmp.Next.Next != null)
-            //{
-            //    if (tmp.Next.Value == value)
-            //    {
-            //        tmp.Next = tmp.Next.Next;
-            //        Length--;
-            //    }
-            //    tmp = tmp.Next;
-            //}
+        }
+        // Метод. Реверс списка
+        public void Reverse()
+        {
+            Node crnt = _root;
+            Node tmp;
+            if (_root == null)
+            {
+                return;
+            }
+            while (crnt.Next != null)
+            {
+                tmp = crnt.Next;
+                crnt.Next = tmp.Next;
+                // crnt.Next = crnt.Next.Next; // альтернативный вариант записи
+                tmp.Next = _root;
+                _root = tmp;
+            }
+        }
+
+        // Метод добавления массива в конец
+        public void AddArray(int [] adArray)
+        {
+            Node current = _root; // Создаем ноду-бегунок-указатель
+            
+            if (Length == 0 && adArray.Length != 0)
+            {
+                _root = new Node(adArray[0]);
+                Node tmp = _root;
+
+                for (int i = 1; i < adArray.Length; i++)
+                {
+                    tmp.Next = new Node(adArray[i]);
+                    tmp = tmp.Next;
+                }
+                tmp.Next = null;
+                Length = adArray.Length;
+            return;
+            }
+            while (current.Next != null)
+            {
+                current = current.Next;
+            }
+                for (int i = 0; i < adArray.Length; i++)
+                {
+                current.Next = new Node(adArray[i]);
+                Length++;
+                current = current.Next;
+                }
+           
         }
     }
 }

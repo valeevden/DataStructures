@@ -347,20 +347,19 @@ namespace SelfMadeList
         // Метод. Удаляет все элементы заданного значения. При необходимости сокращает размер массива вложенным методом. Изменяет длинну обекта класса
         public void DelAllValue(int value)
         {
-
-            for (int i = 0; i < Length; i++)
+            while (GetIndexByValue(value) != -1)
             {
             int index = GetIndexByValue(value);
-            if (index >= 0 )
+                if (index >= 0 )
                 {
                     DelElementStartFromIndex(index, 1);
                 }
-            }
                 if (Length <=1)
                 {
                     Length = 0;
                     return;
                 }
+            }
         }
 
         // Метод. возвращаем максимальное значение
