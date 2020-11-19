@@ -300,7 +300,7 @@ namespace SelfMadeList.LinkedLists
         public int GetIndexByValue(int value)
         {
             Node tmp = _root;
-            for (int i = 0; i <= Length - 1; i++)
+            for (int i = 0; i < Length ; i++)
             {
                 if (tmp.Value == value)
                 {
@@ -521,22 +521,35 @@ namespace SelfMadeList.LinkedLists
             }
         }
         
-        // Метод. Сортируем пузырьком по возрастанию
-        public void SortAscending()
-        {
-            Node tmp = _root;
-            Node current = tmp.Next;
+        //// Метод. Сортируем пузырьком по возрастанию
+        //public void SortAscending()
+        //{
+        //    //Node tmp = _root;
+        //    //Node current = tmp.Next;
 
-            while (current != null)
-                if (tmp.Value > current.Value)
-                {
-                    tmp.Next = current.Next;
-                    current.Next = tmp;
-                    _root = current;
-                    current = tmp.Next;
-                }
+        //    //while (current != null)
+        //    //    if (tmp.Value > current.Value)
+        //    //    {
+        //    //        tmp.Next = current.Next;
+        //    //        current.Next = tmp;
+        //    //        _root = current;
+        //    //        current = tmp.Next;
+        //    //    }
 
+        //    int i_min;
+        //    for (int i = 0; i < Length; i++)
+        //    {
+        //        i_min = i;
+        //        for (int j = i + 1; j < Length; j++)
+        //        {
+        //            if (this[j] < this[i_min])
+        //            {
+        //                i_min = j;
+        //            }
+        //        }
+        //        Swap(i, i_min);
+        //    }
 
-        }
+        //}
     }
 }

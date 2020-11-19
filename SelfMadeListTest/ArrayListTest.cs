@@ -190,8 +190,8 @@ namespace SelfMadeListTest
         }
 
         [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7 }, new int[] { 1, 2, 4, 5, 6, 7 }, 3)]
-        //[TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7 }, new int[] { 1, 2, 4, 5, 6, 7 }, 9)] // негативный
-        //[TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7 }, new int[] { 1, 2, 4, 5, 6, 7 }, 0)] // негативный
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7 }, new int[] { 1, 2, 3, 4, 5, 6, 7 }, 9)] 
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7 }, new int[] { 1, 2, 3, 4, 5, 6, 7 }, 0)] 
         [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7 }, new int[] { 2, 3, 4, 5, 6, 7 }, 1)]
         public void DelFistValueTest(int[] array, int[] expArray, int value)
         {
@@ -207,13 +207,13 @@ namespace SelfMadeListTest
         [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7 }, new int[] { 1, 2, 3, 4, 5, 6, 7 }, 9)]
         [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7 }, new int[] { 1, 2, 3, 4, 5, 6, 7 }, 0)] 
         [TestCase(new int[] { 1, 2, 1, 4, 1, 1, 7 }, new int[] { 2, 4, 7 }, 1)] 
-        //[TestCase(new int[] { 1, 1, 1, 1, 1, 1, 7 }, new int[] {7}, 1)] 
-        //[TestCase(new int[] { 1, 1, 1, 7 }, new int[] {7}, 1)] 
-        [TestCase(new int[] { 1, 1, 1, 7, 7 }, new int[] {7, 7}, 1)] 
+        [TestCase(new int[] { 1, 1, 1, 1, 1, 1, 7 }, new int[] {7}, 1)] 
+        [TestCase(new int[] { 1, 1, 1, 7 }, new int[] {7}, 1)] 
         [TestCase(new int[] { 1, 2, 3 }, new int[] {2, 3, }, 1)]
         [TestCase(new int[] { 1, 1, 1 }, new int[] { }, 1)]
         [TestCase(new int[] { 3, 2, 1 }, new int[] {3,2}, 1)]
         [TestCase(new int[] { 1 }, new int[] { }, 1)]
+        [TestCase(new int[] { }, new int[] { }, 1)]
         public void DelAllValueTest(int[] array, int[] expArray, int value)
         {
             ArrayList expected = new ArrayList(expArray);

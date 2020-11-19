@@ -281,13 +281,13 @@ namespace SelfMadeList.DoubleLinkedList
                 Node tmp = new Node(value); // Создаем новую ноду tmp сбоку
                 tmp.Next = current.Next; // Новая нода tmp теперь ссылается туда же куда ссылается crnt
                 current.Next = tmp; // crnt теперь ссылается на новую ноду tmp
-                tmp.Next.Prev = tmp;
-                tmp.Prev = current;
+                tmp.Next.Prev = tmp; // Следующая за tmp нода теперь ссылается на tmp
+                tmp.Prev = current; // tmp теперь ссылается на crnt
                 Length++;
             }
         }
 
-        // Метод. Удаляет number элементов.
+        // Метод. Удаляет number элементов c конца.
         public void DelLastNElements(int number = 1)
         {
             if (number <= 0)
@@ -302,29 +302,168 @@ namespace SelfMadeList.DoubleLinkedList
             }
             else
             {
-                if (number > Length / 2)
+                Node current = _tail;
+                for (int i = Length; i > Length - number; i--)
                 {
-                    Node current = _root;
-                    for (int i = 0; i < Length - number; i++)
-                    {
-                        current = current.Next;
-                    }
-                    current.Next = null;
-                    _tail = current;
-                    Length -= number;
+                    current = current.Prev;
+                    current.Next = null; // Убиваем ссылку на след. элемент, чтобы он не завис в памяти
                 }
-                else
-                {
-                    Node current = _tail;
-                    for (int i = Length; i > Length - number; i--)
-                    {
-                        current = current.Prev;
-                    }
-                    current.Next = null;
-                    _tail = current;
-                    Length -= number;
-                }
+                _tail = current;
+                Length -= number;
             }
+        }
+
+        // Метод. Удаляет number элементов c начала.
+        public void DelFirstNElements(int number = 1)
+        {
+            if (number <= 0)
+            {
+                return;
+            }
+            if (number >= Length)
+            {
+                Length = 0;
+                _root = null;
+                _tail = null;
+            }
+            else
+            {
+                Node current = _root;
+                for (int i = 0; i < number; i++)
+                {
+                    current = current.Next;
+                    current.Prev = null; // Убиваем ссылку на след. элемент, чтобы он не завис в памяти
+                }
+                _root = current;
+                Length -= number;
+            }
+        }
+
+        // Метод. Удаляет по индексу
+        public void DelIndex(int index)
+        {
+
+            if (index > Length || index < 0)
+            {
+                throw new IndexOutOfRangeException();
+            }
+            if (index == Length -1)
+            {
+                DelLastNElements();
+                return;
+            }
+            if (index == 0)
+            {
+                _root.Next.Prev = null;
+                _root = _root.Next;
+                Length--;
+            }
+            else
+            {
+                if (Length <= 1)
+                {
+                    Length = 0;
+                    _root = null;
+                    _tail = null;
+                    return;
+                }
+                Node current = _root; // создаем node current и кладем туда такую же ссылку как в _root
+                for (int i = 1; i <= index; i++)
+                {
+                    current = current.Next;
+                }
+                //Node current = GetNodeByIndex(index);
+                current.Prev.Next = current.Next;
+                current.Next.Prev = current.Prev;
+                Length--;
+            }
+        }
+
+        // Метод. Возвращает индекс по значению
+        public int GetIndexByValue(int value)
+        {
+            Node tmp = _root;
+            for (int i = 0; i < Length; i++)
+            {
+                if (tmp.Value == value)
+                {
+                    return i;
+                }
+                tmp = tmp.Next;
+            }
+            return -1;
+        }
+
+        // Метод. Получаем максимальное значение в списке
+        public int GetMax()
+        {
+            if (Length <= 0)
+            {
+                throw new InvalidOperationException();
+            }
+            int max = _root.Value;
+            Node tmp = _root;
+            while (tmp != null) // пройти до последнего элемента. tmp.next!=null это предпоследний
+            {
+                if (tmp.Value > max)
+                {
+                    max = tmp.Value;
+                }
+                tmp = tmp.Next;
+            }
+            return max;
+        }
+        // Метод. Получаем минимальное значение в списке
+        public int GetMin()
+        {
+            int min = _root.Value;
+            Node tmp = _root;
+
+            while (tmp != null)
+            {
+                if (tmp.Value < min)
+                {
+                    min = tmp.Value;
+                }
+                tmp = tmp.Next;
+            }
+            return min;
+        }
+        // Метод возвращаем индекс минимального значения
+        public int GetMinIndex()
+        {
+            int min = _root.Value;
+            Node tmp = _root;
+            int index = 0;
+
+            for (int i = 0; i < Length; i++)
+            {
+                if (tmp.Value < min)
+                {
+                    min = tmp.Value;
+                    index = i;
+                }
+                tmp = tmp.Next;
+            }
+            return index;
+        }
+        // Метод возвращаем индекс максимального значения
+        public int GetMaxIndex()
+        {
+            int max = _root.Value;
+            Node tmp = _root;
+            int index = 0;
+
+            for (int i = 0; i < Length; i++)
+            {
+                if (tmp.Value > max)
+                {
+                    max = tmp.Value;
+                    index = i;
+                }
+                tmp = tmp.Next;
+            }
+            return index;
         }
 
 

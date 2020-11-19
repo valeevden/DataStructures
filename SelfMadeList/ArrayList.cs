@@ -337,27 +337,31 @@ namespace SelfMadeList
         public void DelFirstValue(int value)
         {
             int index = GetIndexByValue(value);
-            if (index == -1)
+            if (index != -1)
             {
-                throw new Exception("No matches");
+                DelIndex(index);
             }
-            DelIndex(index);
         }
 
         // Метод. Удаляет все элементы заданного значения. При необходимости сокращает размер массива вложенным методом. Изменяет длинну обекта класса
         public void DelAllValue(int value)
         {
-            while (GetIndexByValue(value) != -1)
+            if (Length == 0)
             {
-            int index = GetIndexByValue(value);
-                if (index >= 0 )
+                return;
+            }
+
+            for (int i = 0; i < Length; i++)
+            {
+                if (_array[i] == value)
                 {
-                    DelElementStartFromIndex(index, 1);
-                }
-                if (Length <=1)
-                {
-                    Length = 0;
-                    return;
+                    for (int j = i; j < Length - 1; j++)
+                    {
+                        _array[j] = _array[j + 1];
+                    }
+                    DecreaseLength();
+                    Length--;
+                    i--;
                 }
             }
         }

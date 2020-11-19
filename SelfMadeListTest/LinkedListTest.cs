@@ -268,16 +268,16 @@ namespace SelfMadeListTest
 
         }
 
-       // [TestCase(new int[] { 3, 1, 2, 0, }, new int[] { 1, 2, 0, 3, })]
+        //[TestCase(new int[] { 3, 1, 2, 0, }, new int[] { 0, 1, 2, 3, })]
         //[TestCase(new int[] { 4, 6, 2, 1, 3 }, new int[] { 1, 2, 3, 4, 6 })]
         //[TestCase(new int[] { -1, 0, 2, 6, -11 }, new int[] { -11, -1, 0, 2, 6 })]
         //[TestCase(new int[] { -15, 0, 12, 0, 1 }, new int[] { -15, 0, 0, 1, 12 })]
-        public void SortAcsendingTest(int[] array, int[] expArray)
-        {
-            LinkedList expected = new LinkedList(expArray);
-            LinkedList actual = new LinkedList(array);
-            actual.SortAscending();
-            Assert.AreEqual(expected, actual);
-        }
+        //public void SortAcsendingTest(int[] array, int[] expArray)
+        //{
+        //    LinkedList expected = new LinkedList(expArray);
+        //    LinkedList actual = new LinkedList(array);
+        //    actual.SortAscending();
+        //    Assert.AreEqual(expected, actual);
+        //}
     }
 }
