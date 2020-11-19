@@ -16,6 +16,10 @@ namespace SelfMadeList.LinkedLists
         {
             get
             {
+                if (index >= Length || index < 0)
+                {
+                    throw new IndexOutOfRangeException();
+                }
                 Node tmp = _root;
                 for (int i = 1; i <= index; i++)
                 {
@@ -26,6 +30,10 @@ namespace SelfMadeList.LinkedLists
 
             set
             {
+                if (index >= Length || index < 0)
+                {
+                    throw new IndexOutOfRangeException();
+                }
                 Node tmp = _root;
                 for (int i = 1; i <= index; i++)
                 {
@@ -185,7 +193,7 @@ namespace SelfMadeList.LinkedLists
                 //current.Next = new Node(value);
                 //current.Next.Next = tmp; 
 
-                for (int i = 0; i < index - 1; i++)
+                for (int i = 1; i < index; i++)
                 {
                     current = current.Next;
                 }

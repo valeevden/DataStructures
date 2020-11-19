@@ -1,5 +1,7 @@
 ﻿using System;
 using SelfMadeList;
+using SelfMadeList.DoubleLinkedList;
+using SelfMadeList.LinkedLists;
 
 namespace ConsoleForTest
 {
@@ -34,12 +36,20 @@ namespace ConsoleForTest
             //Console.WriteLine(array.Length);
             //Console.WriteLine(array2.Length);
 
-            ArrayList artest = new ArrayList();
-            artest.AddArrayToStart(new int [] { 0, 2, 4, 5, 6});
-            artest[3]=99;
-            Console.WriteLine(artest[4]);
-            //int f = artest.ListLength;
+            //ArrayList artest = new ArrayList();
+            //artest.AddArrayToStart(new int[] { 0, 2, 4, 5, 6 });
+            ////artest[3] = 99;
+            //Console.WriteLine(artest[-1]);
+            //int f = artest.Length;
             //Console.WriteLine(f);
+
+            DoubleLinkedList dLList = new DoubleLinkedList(new int[] { 1, 2, 3, 4, 5, });
+            int x = dLList[-1];
+            Console.WriteLine(x);
+            Console.WriteLine(dLList);
+            dLList[7] = 9;
+            Console.WriteLine();
+            Console.WriteLine(dLList);
 
 
         }

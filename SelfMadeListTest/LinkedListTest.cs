@@ -47,6 +47,7 @@ namespace SelfMadeListTest
             actual.AddByIndex(index, value);
             Assert.AreEqual(expected, actual);
         }
+
         [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { 1, 2, 9, 3, 4, 5 }, -1, 9)]
         [TestCase(new int[] { 1, 2, }, new int[] { -1, 1, 2, 3, 4, 5 }, 3, -1)]
         [TestCase(new int[] { 0 }, new int[] { 1, 2, 3, 4, 5, 44 }, 2, 44)]
@@ -267,7 +268,7 @@ namespace SelfMadeListTest
 
         }
 
-        [TestCase(new int[] { 3, 1, 2, 0, }, new int[] { 1, 2, 0, 3, })]
+       // [TestCase(new int[] { 3, 1, 2, 0, }, new int[] { 1, 2, 0, 3, })]
         //[TestCase(new int[] { 4, 6, 2, 1, 3 }, new int[] { 1, 2, 3, 4, 6 })]
         //[TestCase(new int[] { -1, 0, 2, 6, -11 }, new int[] { -11, -1, 0, 2, 6 })]
         //[TestCase(new int[] { -15, 0, 12, 0, 1 }, new int[] { -15, 0, 0, 1, 12 })]
