@@ -251,6 +251,7 @@ namespace SelfMadeListTest
         [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { 1, 2, 3, 4, 5, -99, -99, 0 }, new int[] { -99, -99, 0 })]
         [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { 1, 2, 3, 4, 5, 0 }, new int[] {0})]
         [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { 1, 2, 3, 4, 5 }, new int[] { })]
+        [TestCase(new int[] { }, new int[] { 1, 2, 3, 4, 5 }, new int[] {1,2,3,4,5 })]
         public void AddArrayTest(int[] array, int[] expArray, int [] adArray)
         {
             ArrayList expected = new ArrayList(expArray);
@@ -263,6 +264,7 @@ namespace SelfMadeListTest
         [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { -1, -2, -3, 1, 2, 3, 4, 5}, new int[] { -1, -2, -3 })]
         [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] {0, 1, 2, 3, 4, 5}, new int[] { 0 })]
         [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { 1, 2, 3, 4, 5 }, new int[] { })]
+        [TestCase(new int[] { }, new int[] { 1, 2, 3, 4, 5 }, new int[] {1,2,3,4,5})]
         public void AddArrayToStartTest(int[] array, int[] expArray, int[] adArray)
         {
             ArrayList expected = new ArrayList(expArray);
@@ -272,6 +274,7 @@ namespace SelfMadeListTest
         }
 
         [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { -1, -2, -3, 1, 2, 3, 4, 5 }, new int[] { -1, -2, -3 }, 0)]
+        [TestCase(new int[] { }, new int[] { -1, -2, -3,}, new int[] { -1, -2, -3 }, 0)]
         [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { 1, 2, 3, 0, 66, 77, 4, 5 }, new int[] { 0, 66, 77 }, 3)]
         [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { 1, 2, 3, 4, 5, 11, 0 }, new int[] { 11, 0 }, 5)]
         public void AddArrayToIndexTest(int[] array, int[] expArray, int[] adArray, int index)
@@ -289,9 +292,8 @@ namespace SelfMadeListTest
         {
             ArrayList expected = new ArrayList(expArray);
             ArrayList actual = new ArrayList(array);
-            Assert.Throws<IndexOutOfRangeException>(() => {
-                actual.AddArrayToIndex(adArray, index);
-            }); ;
+            Assert.Throws<IndexOutOfRangeException>(() =>{actual.AddArrayToIndex(adArray, index);});
+            
         }
 
         [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { 9, 1, 2, 3, 4, 5 }, 9)]
