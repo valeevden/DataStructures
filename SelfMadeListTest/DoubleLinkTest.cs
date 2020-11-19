@@ -47,5 +47,32 @@ namespace SelfMadeListTest
             actual.AddByIndex(index, value);
             Assert.AreEqual(expected, actual);
         }
+
+        [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { 1, 2, 9, 3, 4, 5 }, -1, 9)]
+        [TestCase(new int[] { 1, 2, }, new int[] { -1, 1, 2, 3, 4, 5 }, 3, -1)]
+        [TestCase(new int[] { 0 }, new int[] { 1, 2, 3, 4, 5, 44 }, 2, 44)]
+        public void AddByIndexNegative(int[] array, int[] expArray, int index, int value)
+        {
+            DoubleLinkedList expected = new DoubleLinkedList(expArray);
+            DoubleLinkedList actual = new DoubleLinkedList(array);
+            Assert.Throws<IndexOutOfRangeException>(() => {
+                actual.AddByIndex(index, value);
+            }); ;
+        }
+
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7 }, new int[] { 1, 2, 3, }, 4)]
+        [TestCase(new int[] { 1, 2, 3, }, new int[] { 1, 2, 3, }, -7)]
+        [TestCase(new int[] { 1, 2, 3, 4 }, new int[] { 1, 2, 3, 4 }, 0)]
+        [TestCase(new int[] { 1, 2, 3 }, new int[] { }, 9)]
+        [TestCase(new int[] { }, new int[] { }, 9)]
+        public void DelLastNElementsTest(int[] array, int[] expArray, int number)
+        {
+            DoubleLinkedList expected = new DoubleLinkedList(expArray);
+            DoubleLinkedList actual = new DoubleLinkedList(array);
+            actual.DelLastNElements(number);
+            Assert.AreEqual(expected, actual);
+        }
+
+
     }
 }

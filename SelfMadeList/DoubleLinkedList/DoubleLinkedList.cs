@@ -276,13 +276,8 @@ namespace SelfMadeList.DoubleLinkedList
             }
             else
             {
-                //Node current = _root;
-
-                //for (int i = 1; i < index; i++)
-                //{
-                //    current = current.Next;
-                //}
-                Node current = GetNodeByIndex(index);
+                Node current = GetNodeByIndex(index); // Получаем ссылку на ноду по индексу
+                current = current.Prev; // Смещаем указатель на предыдущий элемент
                 Node tmp = new Node(value); // Создаем новую ноду tmp сбоку
                 tmp.Next = current.Next; // Новая нода tmp теперь ссылается туда же куда ссылается crnt
                 current.Next = tmp; // crnt теперь ссылается на новую ноду tmp
@@ -291,5 +286,47 @@ namespace SelfMadeList.DoubleLinkedList
                 Length++;
             }
         }
+
+        // Метод. Удаляет number элементов.
+        public void DelLastNElements(int number = 1)
+        {
+            if (number <= 0)
+            {
+                return;
+            }
+            if (number >= Length)
+            {
+                Length = 0;
+                _root = null;
+                _tail = null;
+            }
+            else
+            {
+                if (number > Length / 2)
+                {
+                    Node current = _root;
+                    for (int i = 0; i < Length - number; i++)
+                    {
+                        current = current.Next;
+                    }
+                    current.Next = null;
+                    _tail = current;
+                    Length -= number;
+                }
+                else
+                {
+                    Node current = _tail;
+                    for (int i = Length; i > Length - number; i--)
+                    {
+                        current = current.Prev;
+                    }
+                    current.Next = null;
+                    _tail = current;
+                    Length -= number;
+                }
+            }
+        }
+
+
     }
 }
