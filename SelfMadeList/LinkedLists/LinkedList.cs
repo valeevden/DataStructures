@@ -558,11 +558,6 @@ namespace SelfMadeList.LinkedLists
             {
                 DelFirstNElements(number);
             }
-
-            if (index > Length || index < 0)
-            {
-                throw new IndexOutOfRangeException();
-            }
             
             if (Length <= 1)
             {
@@ -571,24 +566,47 @@ namespace SelfMadeList.LinkedLists
                 return;
             }
 
-            Node current = _root; // создаем node current и кладем туда такую же ссылку как в _root
-            for (int i = 1; i < index; i++)
+            int maxToTheEnd = Length - index;
+            if (number > maxToTheEnd)
             {
+                number = maxToTheEnd;
+            }
+            if (number < 0)
+            {
+                return;
+            }
+
+            Node current = _root;
+            Node tmp = current;
+
+            for (int i = 1; i <= index + number; i++)
+            {
+                if (i == index)
+                {
+                    tmp = current;
+                }
                 current = current.Next;
             }
-            for (int i = 0; i < Length - number; i++)
-            {
-                current = current.Next;
+
+            tmp.Next = current;
+            Length -= number;
+
+                //Node current = _root; 
+                //for (int i = 1; i < index; i++)
+                //{
+                //    current = current.Next;
+                //}
+
+                //for (int i = 0; i < Length - number; i++)
+                //{
+                //    current = current.Next;
+                //}
+
+                //current.Next = current.Next.Next;
+
+                //Length-=number;
+
             }
-
-            current.Next = current.Next.Next;
-
-
-            Length-=number;
-            
-
-
-        }
 
         public int GetValueByIndex(int index)
         {
@@ -606,14 +624,52 @@ namespace SelfMadeList.LinkedLists
 
         public void SortAscending()
         {
-            throw new NotImplementedException();
+            if (Length <= 1)
+            {
+                return;
+            }
+
+            for (int i = 0; i < Length; i++)
+            {
+                for (int j = i; j > 0; j--)
+                {
+                    if (this[j] < this[j - 1])
+                    {
+                        int k = this[j];
+                        this[j] = this[j - 1];
+                        this[j - 1] = k;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
         }
 
         public void SortDescending()
         {
-            throw new NotImplementedException();
-        }
+            if (Length <=1)
+            {
+                return;
+            }
 
-        
+            for (int i = 0; i < Length; i++)
+            {
+                for (int j = i; j > 0; j--)
+                {
+                    if (this[j] > this[j - 1])
+                    {
+                        int k = this[j];
+                        this[j] = this[j - 1];
+                        this[j - 1] = k;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+        }
     }
 }

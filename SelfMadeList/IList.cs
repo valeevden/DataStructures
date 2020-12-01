@@ -11,7 +11,7 @@ namespace SelfMadeList
 
         public int GetLength();
 
-       // public void Add(int value);
+        public void Add(int value);
 
         public void AddArray(int[] array);
 

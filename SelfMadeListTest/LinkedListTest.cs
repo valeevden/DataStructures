@@ -268,16 +268,41 @@ namespace SelfMadeListTest
 
         }
 
-        //[TestCase(new int[] { 3, 1, 2, 0, }, new int[] { 0, 1, 2, 3, })]
-        //[TestCase(new int[] { 4, 6, 2, 1, 3 }, new int[] { 1, 2, 3, 4, 6 })]
-        //[TestCase(new int[] { -1, 0, 2, 6, -11 }, new int[] { -11, -1, 0, 2, 6 })]
-        //[TestCase(new int[] { -15, 0, 12, 0, 1 }, new int[] { -15, 0, 0, 1, 12 })]
-        //public void SortAcsendingTest(int[] array, int[] expArray)
-        //{
-        //    LinkedList expected = new LinkedList(expArray);
-        //    LinkedList actual = new LinkedList(array);
-        //    actual.SortAscending();
-        //    Assert.AreEqual(expected, actual);
-        //}
+        [TestCase(new int[] { 3, 1, 2, 0, }, new int[] { 0, 1, 2, 3, })]
+        [TestCase(new int[] { 4, 6, 2, 1, 3 }, new int[] { 1, 2, 3, 4, 6 })]
+        [TestCase(new int[] { -1, 0, 2, 6, -11 }, new int[] { -11, -1, 0, 2, 6 })]
+        [TestCase(new int[] { -15, 0, 12, 0, 1 }, new int[] { -15, 0, 0, 1, 12 })]
+        public void SortAcsendingTest(int[] array, int[] expArray)
+        {
+            LinkedList expected = new LinkedList(expArray);
+            LinkedList actual = new LinkedList(array);
+            actual.SortAscending();
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestCase(new int[] { 4, 6, 2, 1, 3 }, new int[] { 6, 4, 3, 2, 1 })]
+        [TestCase(new int[] { -1, 3, 2, 6, -11 }, new int[] { 6, 3, 2, -1, -11 })]
+        [TestCase(new int[] { -11, 13, 22, 06, 0 }, new int[] { 22, 13, 06, 0, -11 })]
+        public void SortDescendingTest(int[] array, int[] expArray)
+        {
+            LinkedList expected = new LinkedList(expArray);
+            LinkedList actual = new LinkedList(array);
+            actual.SortDescending();
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7, 8 }, new int[] { 1, 2, 3, 7, 8 }, 3, 3)]
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7, 8 }, new int[] { 1, 2, 3 }, 3, 9)]
+        [TestCase(new int[] { 1, 2, 3, 4 }, new int[] { 1, 2, 3, 4 }, 3, -2)]
+        [TestCase(new int[] { 1, 2, 3, 4 }, new int[] { 1, 2, 3 }, 3, 3)]
+        [TestCase(new int[] { 1 }, new int[] { }, 1, 10)]
+        [TestCase(new int[] { }, new int[] { }, 0, 10)]
+        public void DelElementStartFromIndexTest(int[] array, int[] expArray, int index, int number)
+        {
+            LinkedList expected = new LinkedList(expArray);
+            LinkedList actual = new LinkedList(array);
+            actual.DelElementStartFromIndex(index, number);
+            Assert.AreEqual(expected, actual);
+        }
     }
 }

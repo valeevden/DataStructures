@@ -313,7 +313,7 @@ namespace SelfMadeList
             }
             if (number < 0)
             {
-                number = 0;
+                return;
             }
             if (Length <= 1)
             {

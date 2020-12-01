@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SelfMadeList.DoubleLinkedList
 {
-    public class DoubleLinkedList
+    public class DoubleLinkedList : IList
     {
         public int Length { get; private set; }
 
@@ -12,6 +12,11 @@ namespace SelfMadeList.DoubleLinkedList
         private Node _root;
         // Переменная _tail для хранения ссылки на предыдущий элемент
         private Node _tail;
+
+        public int GetLength()
+        {
+            return Length;
+        }
 
         // Индексатор класса
         public int this[int index]
@@ -257,7 +262,7 @@ namespace SelfMadeList.DoubleLinkedList
         }
 
         // Метод. Добавляем значение по индексу
-        public void AddByIndex(int index, int value)
+        public void AddToIndex(int index, int value)
         {
             if (index < 0 || index > Length)
             {
@@ -288,7 +293,7 @@ namespace SelfMadeList.DoubleLinkedList
         }
 
         // Метод. Удаляет number элементов c конца.
-        public void DelLastNElements(int number = 1)
+        public void DelLastNElements(int number=1)
         {
             if (number <= 0)
             {
@@ -310,6 +315,28 @@ namespace SelfMadeList.DoubleLinkedList
                 }
                 _tail = current;
                 Length -= number;
+            }
+        }
+
+        public void DelLast()
+        {
+            
+            if (Length <= 1)
+            {
+                Length = 0;
+                _root = null;
+                _tail = null;
+            }
+            else
+            {
+                Node current = _tail;
+                for (int i = Length; i > Length - 1; i--)
+                {
+                    current = current.Prev;
+                    current.Next = null; // Убиваем ссылку на след. элемент, чтобы он не завис в памяти
+                }
+                _tail = current;
+                Length--;
             }
         }
 
@@ -337,6 +364,24 @@ namespace SelfMadeList.DoubleLinkedList
                 _root = current;
                 Length -= number;
             }
+        }
+
+        public void DelFirst()
+        {
+
+            if (Length <= 1)
+            {
+                Length = 0;
+                _root = null;
+                _tail = null;
+            }
+            else
+            {
+                _root = _root.Next;
+                _root.Prev = null;
+                Length --;
+            }
+            
         }
 
         // Метод. Удаляет по индексу
@@ -392,6 +437,33 @@ namespace SelfMadeList.DoubleLinkedList
                 tmp = tmp.Next;
             }
             return -1;
+        }
+
+        public int GetValueByIndex(int index)
+        {
+            if (index >= Length || index < 0)
+            {
+                throw new IndexOutOfRangeException();
+            }
+            int startPoint = Length / 2;
+            if (index < startPoint)
+            {
+                Node tmp = _root;
+                for (int i = 1; i <= index; i++)
+                {
+                    tmp = tmp.Next;
+                }
+                return tmp.Value;
+            }
+            else
+            {
+                Node tmp = _tail;
+                for (int i = Length - 1; i > index; i--)
+                {
+                    tmp = tmp.Prev;
+                }
+                return tmp.Value;
+            }
         }
 
         // Метод. Получаем максимальное значение в списке
@@ -466,6 +538,207 @@ namespace SelfMadeList.DoubleLinkedList
             return index;
         }
 
+        public void AddArray(int[] array)
+        {
+            if (array.Length < 1)
+            {
+                return;
+            }
 
+            Node tmp = _tail;
+            int a = 0;
+
+            if (Length == 0)
+            {
+                _root = new Node(array[0]);
+                tmp = _root;
+                a = 1;
+            }
+            for (int i = a; i < array.Length; i++)
+            {
+                tmp.Next = new Node(array[i]);
+                tmp.Next.Prev = tmp;
+                tmp = tmp.Next;
+            }
+
+            _tail = tmp;
+            Length += array.Length;
+        }
+    
+
+        public void AddArrayToStart(int[] array)
+        {
+            if (array.Length < 1)
+            {
+                return;
+            }
+
+            Node tmp = _root;
+            int a = 0;
+
+            if (Length == 0)
+            {
+                _root = new Node(array[array.Length-1]);
+                tmp = _root;
+                _tail = tmp;
+                a =  1;
+            }
+            for (int i = array.Length - 1 - a ; i >= 0; i--)
+            {
+                tmp.Prev = new Node(array[i]);
+                tmp.Prev.Next = tmp;
+                tmp = tmp.Prev;
+            }
+
+            _root = tmp;
+            Length += array.Length;
+
+        }
+
+        public void AddArrayToIndex(int[] array, int index)
+        {
+            if (index < 0 || index > Length)
+            {
+                throw new IndexOutOfRangeException();
+            }
+
+            if (index == 0)
+            {
+                AddArrayToStart(array);
+                return;
+            }
+
+           if (index == Length)
+           {
+                AddArray(array);
+                return;
+           }
+
+            Node current = GetNodeByIndex(index-1);
+           
+            Node tmp = current.Next;
+            //current = current.Prev;
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                current.Next = new Node(array[i]);
+                current.Next.Prev = current;
+                current = current.Next;
+            }
+            current.Next = tmp;
+            tmp.Prev = current;
+            Length += array.Length;
+        }
+
+        public void DelElementStartFromIndex(int index, int number)
+        {
+            if (index < 0 || index > Length )
+            {
+                throw new IndexOutOfRangeException();
+            }
+            if (number < 0)
+            {
+                return;
+            }
+
+            if (index == 0)
+            {
+                DelFirstNElements(number);
+            }
+
+            if (Length <= 1)
+            {
+                Length = 0;
+                _root = null;
+                _tail = null;
+                return;
+            }
+
+            if (index == Length - 1)
+            {
+                DelLast();
+                return;
+            }
+
+            //int maxToTheEnd = Length - index;
+            //if (number > maxToTheEnd)
+            //{
+            //    number = maxToTheEnd;
+            //}
+
+            Node current = GetNodeByIndex(index);
+            current = current.Next;
+            for (int i = 0; i < number; i++)
+            {
+                current.Next.Prev = current.Prev;
+                current.Prev.Next = current.Next;
+                current = current.Next;
+            }
+            Length -= number;
+
+        }
+
+        public void Reverse()
+        {
+            if (Length > 1)
+            {
+                Node current = _root;
+                Node tmp;
+                while (current != null)
+                {
+                    tmp = current.Next;
+                    current.Next = current.Prev;
+                    current.Prev = tmp;
+                    current = current.Prev;
+                }
+                tmp = _root;
+                _root = _tail;
+                _tail = tmp;
+            }
+        }
+
+        public void SortAscending()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SortDescending()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DelFirstValue(int value)
+        {
+            if (_root != null)
+            {
+                Node current = _root;
+                for (int i = 0; i < Length; i++)
+                {
+                    if (current.Value == value)
+                    {
+                        DelIndex(i);
+                        return;
+                    }
+                    current = current.Next;
+                }
+            }
+        }
+        public void DelAllValue(int value)
+        {
+            if (_root != null)
+            {
+                Node current = _root;
+                for (int i = 0; i < Length; i++)
+                {
+                    if (current.Value == value)
+                    {
+                        DelIndex(i);
+                        i--;
+                    }
+                    current = current.Next;
+                }
+            }
+        }
+   
     }
 }

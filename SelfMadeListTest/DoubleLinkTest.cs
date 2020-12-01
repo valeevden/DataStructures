@@ -44,7 +44,7 @@ namespace SelfMadeListTest
             DoubleLinkedList expected = new DoubleLinkedList(expArray);
             DoubleLinkedList actual = new DoubleLinkedList(array);
 
-            actual.AddByIndex(index, value);
+            actual.AddToIndex(index, value);
             Assert.AreEqual(expected, actual);
         }
 
@@ -56,7 +56,7 @@ namespace SelfMadeListTest
             DoubleLinkedList expected = new DoubleLinkedList(expArray);
             DoubleLinkedList actual = new DoubleLinkedList(array);
             Assert.Throws<IndexOutOfRangeException>(() => {
-                actual.AddByIndex(index, value);
+                actual.AddToIndex(index, value);
             }); ;
         }
 
@@ -161,5 +161,106 @@ namespace SelfMadeListTest
             Assert.AreEqual(expected, actual);
         }
 
+        [TestCase(new int[] { 1 }, new int[] { 1, -1, -2, -3 }, new int[] { -1, -2, -3 })]
+        [TestCase(new int[] { }, new int[] { -1, -2, -3 }, new int[] { -1, -2, -3 })]
+        [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { 1, 2, 3, 4, 5, -1, -2, -3 }, new int[] { -1, -2, -3 })]
+        [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { 1, 2, 3, 4, 5, -99, -99, 0 }, new int[] { -99, -99, 0 })]
+        [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { 1, 2, 3, 4, 5, 0 }, new int[] { 0 })]
+        [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { 1, 2, 3, 4, 5 }, new int[0])]
+        public void AddArrayTest(int[] array, int[] expArray, int[] adArray)
+        {
+            DoubleLinkedList expected = new DoubleLinkedList(expArray);
+            DoubleLinkedList actual = new DoubleLinkedList(array);
+            actual.AddArray(adArray);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { -1, -2, -3, 1, 2, 3, 4, 5 }, new int[] { -1, -2, -3 })]
+        [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { -1, -2, -3, 1, 2, 3, 4, 5 }, new int[] { -1, -2, -3 })]
+        [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { 0, 1, 2, 3, 4, 5 }, new int[] { 0 })]
+        [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { 1, 2, 3, 4, 5 }, new int[] { })]
+        [TestCase(new int[] { }, new int[] { 1, 2, 3, 4, 5 }, new int[] { 1, 2, 3, 4, 5 })]
+        public void AddArrayToStartTest(int[] array, int[] expArray, int[] adArray)
+        {
+            DoubleLinkedList expected = new DoubleLinkedList(expArray);
+            DoubleLinkedList actual = new DoubleLinkedList(array);
+            actual.AddArrayToStart(adArray);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7 }, new int[] { 1, 2, 4, 5, 6, 7 }, 3)]
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, }, new int[] { 1, 2, 4, 5, 6 }, 3)]
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, }, new int[] { 2, 3, 4, 5, 6 }, 1)]
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7 }, new int[] { 1, 2, 3, 4, 5, 7 }, 6)]
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7 }, new int[] { 1, 2, 3, 4, 5, 6 }, 7)]
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7 }, new int[] { 1, 2, 3, 4, 5, 6, 7 }, 9)]
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7 }, new int[] { 1, 2, 3, 4, 5, 6, 7 }, 0)]
+        [TestCase(new int[] { 1, 2, 3 }, new int[] { 2, 3, }, 1)]
+        [TestCase(new int[] { 3, 2, 1 }, new int[] { 3, 2 }, 1)]
+        [TestCase(new int[] { 1 }, new int[] { }, 1)]
+        public void DelFirstValueTest(int[] array, int[] expArray, int value)
+        {
+            DoubleLinkedList expected = new DoubleLinkedList(expArray);
+            DoubleLinkedList actual = new DoubleLinkedList(array);
+            actual.DelFirstValue(value);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7 }, new int[] { 1, 2, 3, 4, 5, 6, 7 }, 9)]
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7 }, new int[] { 1, 2, 3, 4, 5, 6, 7 }, 0)]
+        [TestCase(new int[] { 1, 2, 1, 4, 1, 1, 7 }, new int[] { 2, 4, 7 }, 1)]
+        [TestCase(new int[] { 1, 1, 1, 1, 1, 1, 7 }, new int[] { 7 }, 1)]
+        [TestCase(new int[] { 1, 1, 1, 7 }, new int[] { 7 }, 1)]
+        [TestCase(new int[] { 1, 2, 3 }, new int[] { 2, 3, }, 1)]
+        [TestCase(new int[] { 1, 1, 1 }, new int[] { }, 1)]
+        [TestCase(new int[] { 3, 2, 1 }, new int[] { 3, 2 }, 1)]
+        [TestCase(new int[] { 1 }, new int[] { }, 1)]
+        public void DelAllValueTest(int[] array, int[] expArray, int value)
+        {
+            DoubleLinkedList expected = new DoubleLinkedList(expArray);
+            DoubleLinkedList actual = new DoubleLinkedList(array);
+            actual.DelAllValue(value);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestCase(new int[] { 1, 2, 3, 4 }, new int[] { 4, 3, 2, 1 })]
+        [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { 5, 4, 3, 2, 1 })]
+        [TestCase(new int[] { }, new int[] { })]
+        [TestCase(new int[] { 1 }, new int[] { 1 })]
+        public void ReverseTest(int[] array, int[] expArray)
+        {
+            DoubleLinkedList expected = new DoubleLinkedList(expArray);
+            DoubleLinkedList actual = new DoubleLinkedList(array);
+            actual.Reverse();
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { -1, -2, -3, 1, 2, 3, 4, 5 }, new int[] { -1, -2, -3 }, 0)]
+        [TestCase(new int[] { }, new int[] { -1, -2, -3 }, new int[] { -1, -2, -3 }, 0)]
+        [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { 1, 2, 3, 0, 66, 77, 4, 5 }, new int[] { 0, 66, 77 }, 3)]
+        [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { 1, 2, 3, 4, 5, 11, 0 }, new int[] { 11, 0 }, 5)]
+        [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { 1, 11, 0, 2, 3, 4, 5 }, new int[] { 11, 0 }, 1)]
+        [TestCase(new int[] { 1 }, new int[] { 1 }, new int[] { }, 1)]
+        public void AddArrayToIndexTest(int[] array, int[] expArray, int[] adArray, int index)
+        {
+            DoubleLinkedList expected = new DoubleLinkedList(expArray);
+            DoubleLinkedList actual = new DoubleLinkedList(array);
+            actual.AddArrayToIndex(adArray, index);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7, 8 }, new int[] { 1, 2, 3, 7, 8 }, 3, 3)]
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7, 8 }, new int[] { 1, 2, 3, 8 }, 3, 4)]
+        [TestCase(new int[] { 1, 2, 3, 4 }, new int[] { 1, 2, 3, 4 }, 3, -2)]
+        [TestCase(new int[] { 1, 2, 3, 4 }, new int[] { 1, 2, 3 }, 3, 3)]
+        [TestCase(new int[] { 1 }, new int[] { }, 1, 10)]
+        [TestCase(new int[] { }, new int[] { }, 0, 10)]
+        public void DelElementStartFromIndexTest(int[] array, int[] expArray, int index, int number)
+        {
+            DoubleLinkedList expected = new DoubleLinkedList(expArray);
+            DoubleLinkedList actual = new DoubleLinkedList(array);
+            actual.DelElementStartFromIndex(index, number);
+            Assert.AreEqual(expected, actual);
+        }
     }
 }

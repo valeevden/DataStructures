@@ -297,6 +297,8 @@ namespace SelfMadeListTest
         }
 
         [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { 9, 1, 2, 3, 4, 5 }, 9)]
+        [TestCase(new int[] { }, new int[] { -1}, -1)]
+        [TestCase(new int[] {1}, new int[] {1,1 }, 1 )]
         public void AddToStartTest(int[] array, int[] expArray, int value)
         {
             ArrayList expected = new ArrayList(expArray);
