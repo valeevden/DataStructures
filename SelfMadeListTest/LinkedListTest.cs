@@ -44,7 +44,7 @@ namespace SelfMadeListTest
             LinkedList expected = new LinkedList(expArray);
             LinkedList actual = new LinkedList(array);
 
-            actual.AddByIndex(index, value);
+            actual.AddToIndex(index, value);
             Assert.AreEqual(expected, actual);
         }
 
@@ -56,7 +56,7 @@ namespace SelfMadeListTest
             LinkedList expected = new LinkedList(expArray);
             LinkedList actual = new LinkedList(array);
             Assert.Throws<IndexOutOfRangeException>(() => {
-                actual.AddByIndex(index, value);
+                actual.AddToIndex(index, value);
             }); ;
         }
 
@@ -179,11 +179,11 @@ namespace SelfMadeListTest
         [TestCase(new int[] { 1, 2, 3 }, new int[] { 2, 3, }, 1)]
         [TestCase(new int[] { 3, 2, 1 }, new int[] { 3, 2 }, 1)]
         [TestCase(new int[] { 1 }, new int[] { }, 1)]
-        public void DelValueTest(int[] array, int[] expArray, int value)
+        public void DelFirstValueTest(int[] array, int[] expArray, int value)
         {
             LinkedList expected = new LinkedList(expArray);
             LinkedList actual = new LinkedList(array);
-            actual.DelValue(value);
+            actual.DelFirstValue(value);
             Assert.AreEqual(expected, actual);
         }
 
@@ -200,7 +200,7 @@ namespace SelfMadeListTest
         {
             LinkedList expected = new LinkedList(expArray);
             LinkedList actual = new LinkedList(array);
-            actual.DelALLValue(value);
+            actual.DelAllValue(value);
             Assert.AreEqual(expected, actual);
         }
 

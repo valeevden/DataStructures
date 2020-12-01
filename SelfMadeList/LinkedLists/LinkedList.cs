@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SelfMadeList.LinkedLists
 {
-    public class LinkedList
+    public class LinkedList  : IList
     {
         public int Length { get; private set; }
 
@@ -163,7 +163,7 @@ namespace SelfMadeList.LinkedLists
         }
 
         // Метод. Добавляем значение по индексу
-        public void AddByIndex(int index, int value)
+        public void AddToIndex(int index, int value)
         {
             if (index < 0 || index > Length)
             {
@@ -201,6 +201,27 @@ namespace SelfMadeList.LinkedLists
                 tmp.Next = current.Next; // Новая нода tmp теперь ссылается туда же куда ссылается crnt
                 current.Next = tmp; // crnt теперь ссылается на новую ноду tmp
                 Length++;
+            }
+        }
+
+        // Метод. Удаляет number элементов.
+        public void DelLast()
+        {
+           
+            if (Length <=1)
+            {
+                Length = 0;
+                _root = null;
+            }
+            else
+            {
+                Node current = _root;
+                for (int i = 0; i < Length - 1; i++)
+                {
+                    current = current.Next;
+                }
+                current.Next = null;
+                Length--;
             }
         }
 
@@ -382,7 +403,7 @@ namespace SelfMadeList.LinkedLists
             return index;
         }
         // Метод. Удаляет одно найденное значение из списка
-        public void DelValue(int value)
+        public void DelFirstValue(int value)
         {
             if (_root.Value == value)
             {
@@ -402,7 +423,7 @@ namespace SelfMadeList.LinkedLists
             }
         }
         // Метод. Удаляет все найденные значения
-        public void DelALLValue(int value)
+        public void DelAllValue(int value)
         {
             while (_root != null && _root.Value == value)
             {
@@ -520,36 +541,79 @@ namespace SelfMadeList.LinkedLists
                 current.Next = tmp;
             }
         }
+
+        public int GetLength()
+        {
+            return Length;
+        }
+
+        public void DelElementStartFromIndex(int index, int number)
+        {
+            
+            if (index < 0 || index > Length)
+            {
+                throw new IndexOutOfRangeException();
+            }
+            if (index == 0)
+            {
+                DelFirstNElements(number);
+            }
+
+            if (index > Length || index < 0)
+            {
+                throw new IndexOutOfRangeException();
+            }
+            
+            if (Length <= 1)
+            {
+                Length = 0;
+                _root = null;
+                return;
+            }
+
+            Node current = _root; // создаем node current и кладем туда такую же ссылку как в _root
+            for (int i = 1; i < index; i++)
+            {
+                current = current.Next;
+            }
+            for (int i = 0; i < Length - number; i++)
+            {
+                current = current.Next;
+            }
+
+            current.Next = current.Next.Next;
+
+
+            Length-=number;
+            
+
+
+        }
+
+        public int GetValueByIndex(int index)
+        {
+            if (index >= Length || index < 0)
+            {
+                throw new IndexOutOfRangeException();
+            }
+            Node tmp = _root;
+            for (int i = 1; i <= index; i++)
+            {
+                tmp = tmp.Next;
+            }
+            return tmp.Value;
+        }
+
+        public void SortAscending()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SortDescending()
+        {
+            throw new NotImplementedException();
+        }
+
         
-        //// Метод. Сортируем пузырьком по возрастанию
-        //public void SortAscending()
-        //{
-        //    //Node tmp = _root;
-        //    //Node current = tmp.Next;
-
-        //    //while (current != null)
-        //    //    if (tmp.Value > current.Value)
-        //    //    {
-        //    //        tmp.Next = current.Next;
-        //    //        current.Next = tmp;
-        //    //        _root = current;
-        //    //        current = tmp.Next;
-        //    //    }
-
-        //    int i_min;
-        //    for (int i = 0; i < Length; i++)
-        //    {
-        //        i_min = i;
-        //        for (int j = i + 1; j < Length; j++)
-        //        {
-        //            if (this[j] < this[i_min])
-        //            {
-        //                i_min = j;
-        //            }
-        //        }
-        //        Swap(i, i_min);
-        //    }
-
-        //}
     }
 }

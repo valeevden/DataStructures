@@ -4,7 +4,7 @@ using System;
 
 namespace SelfMadeListTest
 {
-    public class Tests
+    public class ArrayListTests
     {
 
         [TestCase(new int[] { 1, 2, 3, 4 }, new int[] { 4, 3, 2, 1 })]

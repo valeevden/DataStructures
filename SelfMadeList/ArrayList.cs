@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace SelfMadeList
 {
-    public class ArrayList
+    public class ArrayList : IList
     {
         // Свойство. Длина Списка. Можем получить значение, не можем изменить снаружи
         public int Length { get; private set; }
@@ -183,7 +183,7 @@ namespace SelfMadeList
         }
 
         // Метод. Добавляет массив в список по индексу вложенным методом. При необходимости увеличивает размер массива вложенным методом. Изменяет длинну Листа на длинну д.Массива
-        public void AddArrayToIndex(int [] adArray, int index)
+        public void AddArrayToIndex(int[] adArray, int index)
         {
             if (index > Length || index < 0)
             {
